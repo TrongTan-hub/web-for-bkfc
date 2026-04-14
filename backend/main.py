@@ -205,7 +205,7 @@ app.add_middleware(
 )
 
 # Phục vụ static files (frontend HTML/CSS/JS)
-FRONTEND_DIR = BASE_DIR.parent / "frontend"
+FRONTEND_DIR = BASE_DIR / "frontend"
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
