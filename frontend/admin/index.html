@@ -1,172 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel – BK Tuyển Sinh RAG</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-  <!-- ======= HEADER ======= -->
-  <header class="admin-header">
-    <div class="header-logo">BK</div>
-    <div class="header-title">
-      <h1>Admin Panel</h1>
-      <p>Quản lý dữ liệu RAG – Tư vấn Tuyển Sinh BK HCM 2026</p>
-    </div>
-    <div class="header-status" id="status-badge">
-      <span class="dot"></span>
-      <span id="status-text">Đang kết nối...</span>
-    </div>
-  </header>
-
-  <!-- ======= MAIN CONTENT ======= -->
-  <main class="admin-main">
-
-    <!-- ===== CỘT TRÁI: Đăng nhập + Upload ===== -->
-    <div class="panel-left">
-
-      <!-- CARD: Đăng nhập -->
-      <div class="admin-card" id="card-auth">
-        <div class="card-title">🔐 Xác thực Admin</div>
-
-        <div class="form-group">
-          <label>API Key</label>
-          <div class="input-row">
-            <input type="password" id="api-key-input" placeholder="Nhập Admin API Key..." />
-            <button id="btn-auth" class="btn-primary">Xác nhận</button>
-          </div>
-          <p class="hint">API Key được cấu hình trong file <code>.env</code> backend</p>
-        </div>
-
-        <!-- Trạng thái xác thực -->
-        <div id="auth-status" class="auth-status hidden">
-          <span class="auth-icon">✅</span>
-          <span>Đã xác thực thành công!</span>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel – BK Tuyển Sinh RAG</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ======= HEADER ======= -->
+    <header class="admin-header">
+      <div class="header-logo">BK</div>
+      <div class="header-title">
+        <h1>Admin Panel</h1>
+        <p>Quản lý dữ liệu RAG – Tư vấn Tuyển Sinh BK HCM 2026</p>
       </div>
-
-      <!-- CARD: Upload PDF -->
-      <div class="admin-card" id="card-upload">
-        <div class="card-title">📄 Upload Tài Liệu PDF</div>
-        <p class="card-desc">
-          Kéo thả hoặc chọn file PDF. Hệ thống sẽ tự động xử lý và cập nhật
-          cơ sở kiến thức cho chatbot RAG.
-        </p>
-
-        <!-- Vùng kéo thả -->
-        <div class="drop-zone" id="drop-zone">
-          <div class="drop-icon">📂</div>
-          <div class="drop-text">Kéo & thả file PDF vào đây</div>
-          <div class="drop-sub">hoặc</div>
-          <label class="btn-upload-label" for="file-input">Chọn file</label>
-          <input type="file" id="file-input" accept=".pdf" multiple hidden />
-        </div>
-
-        <!-- Danh sách file đã chọn -->
-        <div id="selected-files" class="selected-files hidden">
-          <div class="selected-title">📋 File đã chọn:</div>
-          <ul id="file-list"></ul>
-        </div>
-
-        <!-- Nút upload -->
-        <button id="btn-upload" class="btn-primary btn-full" disabled>
-          ⬆️ Upload &amp; Cập nhật Vector DB
-        </button>
-
-        <!-- Progress bar -->
-        <div id="upload-progress" class="progress-wrap hidden">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
-          <p id="progress-text">Đang xử lý...</p>
-        </div>
+      <div class="header-status" id="status-badge">
+        <span class="dot"></span>
+        <span id="status-text">Đang kết nối...</span>
       </div>
+    </header>
 
-      <!-- CARD: Rebuild thủ công -->
-      <div class="admin-card">
-        <div class="card-title">🔄 Rebuild Vector Database</div>
-        <p class="card-desc">
-          Xây dựng lại toàn bộ Vector DB từ các PDF hiện có.
-          Dùng khi cần cập nhật sau khi chỉnh sửa file.
-        </p>
-        <button id="btn-rebuild" class="btn-warning btn-full">
-          🔨 Rebuild toàn bộ Vector DB
-        </button>
-      </div>
+    <!-- ======= MAIN CONTENT ======= -->
+    <main class="admin-main">
+      <!-- ===== CỘT TRÁI: Đăng nhập + Upload ===== -->
+      <div class="panel-left">
+        <!-- CARD: Đăng nhập -->
+        <div class="admin-card" id="card-auth">
+          <div class="card-title">🔐 Xác thực Admin</div>
 
-    </div><!-- /panel-left -->
-
-    <!-- ===== CỘT PHẢI: Danh sách file + Log ===== -->
-    <div class="panel-right">
-
-      <!-- CARD: Danh sách file đã upload -->
-      <div class="admin-card">
-        <div class="card-title-row">
-          <div class="card-title">📚 Tài Liệu Đã Upload</div>
-          <button id="btn-refresh" class="btn-sm">🔃 Làm mới</button>
-        </div>
-        <p class="card-desc" id="file-count">Tổng cộng: 0 file PDF</p>
-
-        <!-- Bảng file -->
-        <div class="file-table-wrap">
-          <table class="file-table">
-            <thead>
-              <tr>
-                <th>Tên file</th>
-                <th>Kích thước</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody id="file-table-body">
-              <tr>
-                <td colspan="3" class="empty-row">Chưa có tài liệu nào</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- CARD: System Status -->
-      <div class="admin-card">
-        <div class="card-title">📊 Trạng Thái Hệ Thống</div>
-        <div class="status-grid" id="status-grid">
-          <div class="status-item">
-            <span class="status-label">Vector DB</span>
-            <span class="status-val" id="sys-vectordb">--</span>
+          <div class="form-group">
+            <label>API Key</label>
+            <div class="input-row">
+              <input
+                type="password"
+                id="api-key-input"
+                placeholder="Nhập Admin API Key..."
+              />
+              <button id="btn-auth" class="btn-primary">Xác nhận</button>
+            </div>
+            <p class="hint">
+              API Key được cấu hình trong file <code>.env</code> backend
+            </p>
           </div>
-          <div class="status-item">
-            <span class="status-label">RAG Chain</span>
-            <span class="status-val" id="sys-ragchain">--</span>
-          </div>
-          <div class="status-item">
-            <span class="status-label">Số file PDF</span>
-            <span class="status-val" id="sys-pdfs">--</span>
-          </div>
-          <div class="status-item">
-            <span class="status-label">Backend</span>
-            <span class="status-val" id="sys-backend">--</span>
+
+          <!-- Trạng thái xác thực -->
+          <div id="auth-status" class="auth-status hidden">
+            <span class="auth-icon">✅</span>
+            <span>Đã xác thực thành công!</span>
           </div>
         </div>
-      </div>
 
-      <!-- CARD: Log hoạt động -->
-      <div class="admin-card">
-        <div class="card-title-row">
-          <div class="card-title">🗒️ Log Hoạt Động</div>
-          <button id="btn-clear-log" class="btn-sm btn-danger-sm">Xóa log</button>
+        <!-- CARD: Upload PDF -->
+        <div class="admin-card" id="card-upload">
+          <div class="card-title">📄 Upload Tài Liệu PDF</div>
+          <p class="card-desc">
+            Kéo thả hoặc chọn file PDF. Hệ thống sẽ tự động xử lý và cập nhật cơ
+            sở kiến thức cho chatbot RAG.
+          </p>
+
+          <!-- Vùng kéo thả -->
+          <div class="drop-zone" id="drop-zone">
+            <div class="drop-icon">📂</div>
+            <div class="drop-text">Kéo & thả file PDF vào đây</div>
+            <div class="drop-sub">hoặc</div>
+            <label class="btn-upload-label" for="file-input">Chọn file</label>
+            <input type="file" id="file-input" accept=".pdf" multiple hidden />
+          </div>
+
+          <!-- Danh sách file đã chọn -->
+          <div id="selected-files" class="selected-files hidden">
+            <div class="selected-title">📋 File đã chọn:</div>
+            <ul id="file-list"></ul>
+          </div>
+
+          <!-- Nút upload -->
+          <button id="btn-upload" class="btn-primary btn-full" disabled>
+            ⬆️ Upload &amp; Cập nhật Vector DB
+          </button>
+
+          <!-- Progress bar -->
+          <div id="upload-progress" class="progress-wrap hidden">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p id="progress-text">Đang xử lý...</p>
+          </div>
         </div>
-        <div id="activity-log" class="activity-log">
-          <div class="log-item log-info">Hệ thống Admin Panel đã khởi động.</div>
+
+        <!-- CARD: Rebuild thủ công -->
+        <div class="admin-card">
+          <div class="card-title">🔄 Rebuild Vector Database</div>
+          <p class="card-desc">
+            Xây dựng lại toàn bộ Vector DB từ các PDF hiện có. Dùng khi cần cập
+            nhật sau khi chỉnh sửa file.
+          </p>
+          <button id="btn-rebuild" class="btn-warning btn-full">
+            🔨 Rebuild toàn bộ Vector DB
+          </button>
         </div>
       </div>
+      <!-- /panel-left -->
 
-    </div><!-- /panel-right -->
+      <!-- ===== CỘT PHẢI: Danh sách file + Log ===== -->
+      <div class="panel-right">
+        <!-- CARD: Danh sách file đã upload -->
+        <div class="admin-card">
+          <div class="card-title-row">
+            <div class="card-title">📚 Tài Liệu Đã Upload</div>
+            <button id="btn-refresh" class="btn-sm">🔃 Làm mới</button>
+          </div>
+          <p class="card-desc" id="file-count">Tổng cộng: 0 file PDF</p>
 
-  </main>
+          <!-- Bảng file -->
+          <div class="file-table-wrap">
+            <table class="file-table">
+              <thead>
+                <tr>
+                  <th>Tên file</th>
+                  <th>Kích thước</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="file-table-body">
+                <tr>
+                  <td colspan="3" class="empty-row">Chưa có tài liệu nào</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-  <script src="script.js"></script>
-</body>
+        <!-- CARD: System Status -->
+        <div class="admin-card">
+          <div class="card-title">📊 Trạng Thái Hệ Thống</div>
+          <div class="status-grid" id="status-grid">
+            <div class="status-item">
+              <span class="status-label">Vector DB</span>
+              <span class="status-val" id="sys-vectordb">--</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">RAG Chain</span>
+              <span class="status-val" id="sys-ragchain">--</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Số file PDF</span>
+              <span class="status-val" id="sys-pdfs">--</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Backend</span>
+              <span class="status-val" id="sys-backend">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: Log hoạt động -->
+        <div class="admin-card">
+          <div class="card-title-row">
+            <div class="card-title">🗒️ Log Hoạt Động</div>
+            <button id="btn-clear-log" class="btn-sm btn-danger-sm">
+              Xóa log
+            </button>
+          </div>
+          <div id="activity-log" class="activity-log">
+            <div class="log-item log-info">
+              Hệ thống Admin Panel đã khởi động.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /panel-right -->
+    </main>
+
+    <script src="script.js"></script>
+  </body>
 </html>
