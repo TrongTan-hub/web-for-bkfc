@@ -1,0 +1,295 @@
+/* =============================================
+    RESET & BIẾN CSS TOÀN CỤC
+============================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue-dark: #003087;
+  --blue-main: #1455c0;
+  --blue-light: #4a90d9;
+  --bg-light: #eaf2fb;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-mid: #444466;
+  --accent: #f5a623;
+  --red-dot: #e8455a;
+  --shadow: 0 4px 20px rgba(0, 48, 135, 0.15);
+}
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  background: #1a1a2e;
+  color: var(--white);
+  overflow-x: hidden;
+  /* Thay đổi: Dùng min-height để linh hoạt hơn trên mobile */
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =============================================
+    LANDING PAGE – NỀN + OVERLAY
+============================================= */
+#landing-bg {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 100% 0 0);
+  animation: revealLeft 1s ease-out 0.3s forwards;
+  opacity: 0.55;
+}
+
+#landing-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes revealLeft {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+#landing-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 20, 80, 0.85) 0%,
+    rgba(0, 20, 80, 0.4) 55%,
+    transparent 100%
+  );
+}
+
+/* =============================================
+    NỘI DUNG CHÍNH
+============================================= */
+#landing-content {
+  position: relative;
+  z-index: 10;
+  /* Thay đổi: Dùng đơn vị linh hoạt để text không bị sát mép */
+  padding: 8vh 6vw 0;
+}
+
+#landing-logos {
+  display: flex;
+  overflow: hidden;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 5vh;
+  animation: fadeInDown 0.6s ease 1.4s both;
+}
+
+#landing-logos img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-badge {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: -0.5px;
+}
+
+#landing-title {
+  font-family: "Roboto Condensed", sans-serif;
+  /* Thay đổi: Dùng clamp để tự scale cỡ chữ theo màn hình */
+  font-size: clamp(26px, 4.5vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+  max-width: 600px;
+  animation: fadeInUp 0.7s ease 1.5s both;
+}
+
+#landing-subtitle {
+  font-size: clamp(14px, 1.5vw, 18px);
+  color: #c8d8f0;
+  margin-top: 10px;
+  animation: fadeInUp 0.7s ease 1.7s both;
+}
+
+#landing-sub2 {
+  font-size: clamp(11px, 1.2vw, 14px);
+  color: #8aabdc;
+  margin-top: 4px;
+  animation: fadeInUp 0.7s ease 1.8s both;
+}
+
+#btn-start {
+  margin-top: 32px;
+  display: inline-block;
+  background: var(--blue-main);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 14px 44px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  animation: fadeInUp 0.7s ease 1.9s both;
+}
+#btn-start:hover {
+  background: #0d3fa6;
+  transform: translateY(-2px);
+}
+
+/* =============================================
+    3 Ô THÔNG TIN PHÍA DƯỚI
+============================================= */
+#landing-cards {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  animation: fadeInUp 0.7s ease 2.1s both;
+  z-index: 20;
+}
+
+.landing-card {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  /* Thay đổi: Align Center để đồng nhất tỉ lệ */
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.landing-card:hover {
+  background: rgba(20, 85, 192, 0.5);
+}
+
+.landing-card + .landing-card {
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.card-icon {
+  width: clamp(32px, 4vw, 42px);
+  height: clamp(32px, 4vw, 42px);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-icon svg {
+  width: 50%;
+  height: 50%;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2;
+}
+
+.card-title {
+  /* Thay đổi: Dùng vw để chữ tự co lại trên mobile */
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.card-more {
+  font-size: 11px;
+  color: #8aabdc;
+  margin-top: 2px;
+}
+
+/* =============================================
+    KEYFRAME ANIMATIONS
+============================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =============================================
+    RESPONSIVE
+============================================= */
+@media (max-width: 680px) {
+  #landing-content {
+    padding: 6vh 20px 0;
+    text-align: center; /* Căn giữa để cân đối trên mobile */
+  }
+
+  #landing-logos {
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  #landing-title {
+    margin: 0 auto;
+  }
+
+  #landing-cards {
+    flex-direction: row; /* Ép nằm ngang như yêu cầu */
+  }
+
+  .landing-card {
+    padding: 12px 4px;
+    gap: 4px;
+  }
+
+  .card-more {
+    display: none; /* Ẩn bớt để không bị chật màn hình */
+  }
+
+  .card-title {
+    font-size: 2.8vw; /* Tỉ lệ vàng để không mất chữ trên mobile */
+    letter-spacing: 0;
+  }
+
+  body {
+    height: auto;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+  }
+}
