@@ -249,7 +249,7 @@ def require_admin(x_api_key: str = Depends(lambda: None)):
 @app.on_event("startup")
 async def startup_event():
     """Tải vectorstore khi server khởi động"""
-    load_or_create_vectorstore()
+    #load_or_create_vectorstore()
     setup_rag_chain()
     print("🚀 BK RAG API đã khởi động!")
 
