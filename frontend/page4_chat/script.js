@@ -10,7 +10,7 @@
 ------------------------------------------------------- */
 const API_CONFIG = {
   // Endpoint của FastAPI backend RAG
-  endpoint: "http://localhost:8000/api/chat",
+  endpoint: "http://railway.com/api/chat",
   // Timeout tối đa mỗi request (ms)
   timeout: 30000,
 };

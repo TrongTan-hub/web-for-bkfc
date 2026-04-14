@@ -1,15 +1,15 @@
 /**
  * page2_form/script.js
- * Xử lý: quy đổi chứng chỉ, tính điểm học bạ, chuyển trang kết quả
+ * Sửa lỗi: Chặn nhập chữ, Toán x2, Fix trần điểm chứng chỉ.
+ * Giữ nguyên cấu trúc source gốc.
  */
 
 /* -------------------------------------------------------
-   BẢNG QUY ĐỔI CHỨNG CHỈ TIẾNG ANH → ĐIỂM THI THPT
-   Nguồn: Thông tư BK HCM 2026 (tham khảo)
+   BẢNG QUY ĐỔI CHỨNG CHỈ TIẾNG ANH (Fix trần điểm)
 ------------------------------------------------------- */
 const CERT_TABLE = {
   IELTS: [
-    { min: 8.0, score: 10 },
+    { max: 9.0, min: 8.0, score: 10 },
     { min: 7.5, score: 9.8 },
     { min: 7.0, score: 9.5 },
     { min: 6.5, score: 9.0 },
@@ -20,7 +20,7 @@ const CERT_TABLE = {
     { min: 4.0, score: 5.0 },
   ],
   PTE: [
-    { min: 76, score: 10 },
+    { max: 90, min: 76, score: 10 },
     { min: 68, score: 9.5 },
     { min: 59, score: 9.0 },
     { min: 51, score: 8.0 },
@@ -28,7 +28,7 @@ const CERT_TABLE = {
     { min: 36, score: 6.0 },
   ],
   TOEFL: [
-    { min: 110, score: 10 },
+    { max: 120, min: 110, score: 10 },
     { min: 100, score: 9.5 },
     { min: 87, score: 9.0 },
     { min: 72, score: 8.0 },
@@ -36,7 +36,7 @@ const CERT_TABLE = {
     { min: 46, score: 6.0 },
   ],
   TOEIC: [
-    { min: 905, score: 10 },
+    { max: 990, min: 905, score: 10 },
     { min: 800, score: 9.5 },
     { min: 700, score: 9.0 },
     { min: 600, score: 8.0 },
@@ -45,9 +45,6 @@ const CERT_TABLE = {
   ],
 };
 
-/* -------------------------------------------------------
-   HỆ SỐ ƯU TIÊN (Đã chuẩn hóa về thang 30 của Bộ GD&ĐT)
-------------------------------------------------------- */
 const KV_BONUS_30 = { KV1: 0.75, KV2NT: 0.5, KV2: 0.25, KV3: 0.0 };
 const UT_BONUS_30 = { UT1: 2.0, UT2: 1.0, none: 0.0 };
 
@@ -59,7 +56,6 @@ function safeNum(id) {
   return isNaN(v) ? 0 : v;
 }
 
-// Tính trung bình cộng của các ô có nhập điểm
 function avgValid(ids) {
   const values = ids.map((id) => safeNum(id)).filter((v) => v > 0);
   return values.length > 0
@@ -72,15 +68,20 @@ function avgValid(ids) {
 ------------------------------------------------------- */
 function lookupCert() {
   const certType = document.querySelector('input[name="cert"]:checked')?.value;
-  if (!certType) {
-    alert("Vui lòng chọn loại chứng chỉ trước!");
-    return;
-  }
+  if (!certType) return alert("Vui lòng chọn loại chứng chỉ trước!");
 
-  const certScore = parseFloat(document.getElementById("cert-score").value);
-  if (isNaN(certScore)) {
-    alert("Vui lòng nhập điểm chứng chỉ hợp lệ!");
-    return;
+  const certInput = document.getElementById("cert-score");
+  const certScore = parseFloat(certInput.value);
+  if (isNaN(certScore)) return alert("Vui lòng nhập điểm chứng chỉ hợp lệ!");
+
+  // Kiểm tra trần điểm tối đa
+  const maxVal = CERT_TABLE[certType][0].max;
+  if (certScore > maxVal) {
+    alert(
+      `Điểm tối đa của ${certType} là ${maxVal}. Hệ thống sẽ tự đưa về mức tối đa.`,
+    );
+    certInput.value = maxVal;
+    return lookupCert(); // Chạy lại với giá trị đã fix
   }
 
   const table = CERT_TABLE[certType] || [];
@@ -97,7 +98,6 @@ function lookupCert() {
     return;
   }
 
-  // Tự điền vào ô Môn 3 theo đúng ID HTML của bạn
   document.getElementById("thpt3").value = converted;
   alert(
     `✅ ${certType} ${certScore} → ${converted} điểm THPT (đã điền vào ô Môn 3)`,
@@ -105,71 +105,53 @@ function lookupCert() {
 }
 
 /* -------------------------------------------------------
-   HÀM TÍNH TOÁN ĐIỂM XÉT TUYỂN (CẬP NHẬT BK HCM 2026)
+   HÀM TÍNH TOÁN (Toán x2)
 ------------------------------------------------------- */
 function calculate() {
-  /**
-   * 1. HỌC BẠ QUY ĐỔI (Toán x2)
-   * Giả định: Môn 1 (toan10) là Toán, Môn 2 (ly10), Môn 3 (hoa10)
-   */
+  // 1. Học bạ (Toán x2)
   const hbToan = avgValid(["toan10", "toan11", "toan12"]);
   const hbMon2 = avgValid(["ly10", "ly11", "ly12"]);
   const hbMon3 = avgValid(["hoa10", "hoa11", "hoa12"]);
   const diemHocTHPT_QuyDoi = ((hbToan * 2 + hbMon2 + hbMon3) / 4) * 10;
 
-  /**
-   * 2. THPT QUY ĐỔI (Toán x2)
-   * Giả định: thpt1 là Toán
-   */
+  // 2. THPT (Toán x2)
   const thptToan = safeNum("thpt1");
   const thptMon2 = safeNum("thpt2");
   const thptMon3 = safeNum("thpt3");
   const diemTNTHPT_QuyDoi = ((thptToan * 2 + thptMon2 + thptMon3) / 4) * 10;
 
-  /**
-   * 3. NĂNG LỰC (Phân rẽ đối tượng Có/Không thi ĐGNL)
-   */
+  // 3. Năng lực
   const isNoDGNL =
     document.querySelector('input[name="codinh"]:checked')?.value === "khong";
   let diemNangLuc = 0;
 
   if (isNoDGNL) {
-    // Không thi ĐGNL: Lấy 75% của điểm THPT quy đổi
     diemNangLuc = diemTNTHPT_QuyDoi * 0.75;
   } else {
-    // Có thi: Tính từ 3 ô nhập (Ngôn ngữ + Toán học + Tư duy)
     const dgnlNgonNgu = safeNum("dgnl-ngonngu");
     const dgnlToan = safeNum("dgnl-toanh");
     const dgnlTuDuy = safeNum("dgnl-tuduy");
-
     const tongDGNL = dgnlNgonNgu + dgnlToan + dgnlTuDuy;
     // Công thức: (Tổng + Toán) / 15
     diemNangLuc = (tongDGNL + dgnlToan) / 15;
   }
 
-  /**
-   * 4. HỌC LỰC (ĐGNL 70% - THPT 20% - Học bạ 10%)
-   */
+  // 4. Học lực
   let diemHocLuc =
     diemNangLuc * 0.7 + diemTNTHPT_QuyDoi * 0.2 + diemHocTHPT_QuyDoi * 0.1;
   diemHocLuc = parseFloat(diemHocLuc.toFixed(2));
 
-  /**
-   * 5. ĐIỂM CỘNG (Tối đa 10, Chặn 100)
-   */
+  // 5. Điểm cộng
   const diemCongGoc = safeNum("input-diem-cong");
   const diemCongThanhTich = Math.min(diemCongGoc, 10);
   let diemCongThucTe =
     diemHocLuc + diemCongThanhTich < 100 ? diemCongThanhTich : 100 - diemHocLuc;
 
-  /**
-   * 6. ĐIỂM ƯU TIÊN (Giảm tuyến tính >= 75)
-   */
+  // 6. Điểm ưu tiên
   const kuvuc =
     document.querySelector('input[name="kuvuc"]:checked')?.value || "KV3";
   const uutien =
     document.querySelector('input[name="uutien"]:checked')?.value || "none";
-
   const utGoc30 = (KV_BONUS_30[kuvuc] || 0) + (UT_BONUS_30[uutien] || 0);
   const utQuyDoi100 = (utGoc30 / 3) * 10;
 
@@ -183,82 +165,78 @@ function calculate() {
   }
   diemUT_Final = Math.round(diemUT_Final * 100) / 100;
 
-  /**
-   * 7. TỔNG ĐIỂM CUỐI CÙNG
-   */
+  // 7. Tổng điểm
   let total = parseFloat((tongHocLucVaCong + diemUT_Final).toFixed(2));
   if (total > 100) total = 100;
 
-  /**
-   * 8. HIỂN THỊ KẾT QUẢ VÀ NÚT TRA CỨU
-   */
+  // 8. Hiển thị
   const resultDiv = document.getElementById("result-display");
   const scoreDisplay = document.getElementById("final-score");
+  const resultBox = document.querySelector(".result-box");
 
-  if (resultDiv && scoreDisplay) {
-    scoreDisplay.innerText = total.toFixed(2);
-    resultDiv.style.display = "block"; // Hiện khối kết quả
-    resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" }); // Cuộn xuống
-  } else {
-    // Đề phòng HTML bị thiếu div, báo alert dự phòng
-    alert("Tổng điểm xét tuyển của bạn là: " + total.toFixed(2));
-  }
+  if (scoreDisplay) scoreDisplay.innerText = total.toFixed(2);
+  if (resultDiv) resultDiv.style.display = "block";
+  if (resultBox) resultBox.style.display = "block";
 
-  // Lưu SessionStorage để dùng cho trang kết quả (page3)
+  resultBox?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
   sessionStorage.setItem(
     "bkfc_result",
     JSON.stringify({
-      diemHocLuc: diemHocLuc,
+      diemHocLuc,
       diemUuTien: diemUT_Final,
       diemCong: diemCongThucTe,
-      total: total,
-      isNoDGNL: isNoDGNL,
+      total,
+      isNoDGNL,
     }),
   );
 }
 
 /* -------------------------------------------------------
-   GÁN SỰ KIỆN SAU KHI DOM TẢI
+   GÁN SỰ KIỆN & CHẶN CHỮ
 ------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
+  // CHẶN NHẬP CHỮ (Chỉ cho phép số và dấu chấm)
+  const allInputs = document.querySelectorAll('input[type="number"]');
+  allInputs.forEach((input) => {
+    input.addEventListener("keypress", (e) => {
+      const charCode = e.which ? e.which : e.keyCode;
+      if (
+        charCode !== 46 &&
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57)
+      ) {
+        e.preventDefault();
+      }
+    });
+  });
+
   document.getElementById("btn-back-home")?.addEventListener("click", () => {
     window.location.href = "../page1_landing/index.html";
   });
 
   document.getElementById("btn-lookup")?.addEventListener("click", lookupCert);
-
   document
     .getElementById("btn-calculate")
     ?.addEventListener("click", calculate);
-
-  // Sự kiện cho nút chuyển trang (Nút này nằm trong HTML phần hiển thị kết quả mới thêm)
   document.getElementById("btn-go-to-result")?.addEventListener("click", () => {
     window.location.href = "../page3_result/index.html";
   });
 
-  // Mờ form ĐGNL nếu chọn Không thi
+  // Mờ form ĐGNL (giữ nguyên logic)
   const radioDGNL = document.querySelectorAll('input[name="codinh"]');
   radioDGNL.forEach((radio) => {
     radio.addEventListener("change", (e) => {
       const isNoDGNL = e.target.value === "khong";
-      const inputsDGNL = [
-        document.getElementById("dgnl-ngonngu"),
-        document.getElementById("dgnl-toanh"),
-        document.getElementById("dgnl-tuduy"),
-      ];
-      inputsDGNL.forEach((input) => {
+      const ids = ["dgnl-ngonngu", "dgnl-toanh", "dgnl-tuduy"];
+      ids.forEach((id) => {
+        const input = document.getElementById(id);
         if (input) {
           input.disabled = isNoDGNL;
           input.style.opacity = isNoDGNL ? "0.5" : "1";
-          if (isNoDGNL) input.value = ""; // Xóa trắng khi không thi
+          if (isNoDGNL) input.value = "";
         }
       });
     });
   });
-  // Thêm đoạn này vào cuối hàm tính toán của bạn
-  const resultBox = document.querySelector(".result-box");
-  resultBox.style.display = "block";
-
-  // Tự động cuộn đến hộp kết quả một cách mượt mà
-  resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
