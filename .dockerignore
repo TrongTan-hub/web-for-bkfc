@@ -1,0 +1,55 @@
+# ── Python ────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# ── Virtual environments ──────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Secrets (KHÔNG BAO GIỜ đưa vào image) ─
+.env
+*.env
+!.env.example
+
+# ── Vector DB (mount volume thay thế) ─────
+backend/vectorstore/
+vectorstore/
+
+# ── Dữ liệu PDF (mount volume thay thế) ───
+backend/data/
+data/
+
+# ── Git ───────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── IDE / Editor ──────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────
+*.log
+logs/
+
+# ── Test ──────────────────────────────────
+tests/
+pytest_cache/
+.coverage

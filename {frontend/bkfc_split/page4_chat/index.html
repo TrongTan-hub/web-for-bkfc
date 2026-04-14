@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tư Vấn Tuyển Sinh – BK HCM 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======= HEADER TƯ VẤN VIÊN ======= -->
+  <div class="chat-header">
+
+    <!-- Avatar tư vấn viên -->
+    <div class="advisor-avatar">
+      🎓
+      <div class="online-dot"></div>
+    </div>
+
+    <!-- Thông tin -->
+    <div class="advisor-info">
+      <div class="advisor-name">Chuyên viên Tuyển Sinh BK</div>
+      <div class="advisor-role">Phòng Đào Tạo – ĐH Bách Khoa HCM</div>
+      <div class="advisor-status">● Đang trực tuyến</div>
+    </div>
+
+    <!-- Nút quay về trang chủ -->
+    <button class="chat-back-btn" id="btn-back-home">← Trang chủ</button>
+  </div>
+
+  <!-- ======= VÙNG TIN NHẮN ======= -->
+  <div id="chat-messages">
+    <!-- Render bởi script.js -->
+  </div>
+
+  <!-- ======= Ô NHẬP TIN NHẮN ======= -->
+  <div class="chat-input-area">
+    <div class="chat-input-row">
+      <!-- Textarea tự giãn chiều cao -->
+      <textarea
+        id="chat-input"
+        rows="1"
+        placeholder="Nhập câu hỏi của bạn..."
+        onkeydown="handleChatKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <!-- Nút gửi tròn -->
+      <button id="btn-send" onclick="sendChat()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="chat-note">
+      ⚠️ Đây là tư vấn viên ảo hỗ trợ thông tin chung. Thông tin tuyển sinh chính thức xem tại
+      <a href="https://tuyensinh.hcmut.edu.vn" target="_blank">tuyensinh.hcmut.edu.vn</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

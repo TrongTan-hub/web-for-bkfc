@@ -1,0 +1,97 @@
+# ============================================================
+# docker-compose.yml – Orchestration toàn bộ hệ thống BK RAG
+# Chạy: docker compose up --build
+# ============================================================
+
+version: "3.9"
+
+services:
+
+  # ── 1. BACKEND: FastAPI + RAG ──────────────────────────
+  backend:
+    build:
+      context: .                          # Build từ thư mục gốc project
+      dockerfile: docker/Dockerfile.backend
+    container_name: bkfc_backend
+
+    # Biến môi trường (đọc từ file .env)
+    env_file:
+      - backend/.env
+
+    # Mount volume để:
+    # (a) dữ liệu PDF không mất khi restart container
+    # (b) Vector DB FAISS được lưu bền vững
+    volumes:
+      - pdf_data:/app/data              # Thư mục PDF tải lên
+      - faiss_db:/app/vectorstore       # Vector DB FAISS
+
+    # Chỉ expose ra mạng nội bộ Docker, không ra ngoài trực tiếp
+    expose:
+      - "8000"
+
+    # Restart tự động khi bị crash (trừ lúc stop thủ công)
+    restart: unless-stopped
+
+    # Health check – đợi backend sẵn sàng trước khi frontend start
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s    # Đợi 90s để model embedding tải xong
+
+    # Giới hạn tài nguyên (tùy server)
+    deploy:
+      resources:
+        limits:
+          memory: 2G       # Embedding model cần ~1.5GB RAM
+        reservations:
+          memory: 512M
+
+    networks:
+      - bkfc_net
+
+
+  # ── 2. FRONTEND: Nginx static server ───────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: bkfc_frontend
+
+    # Phụ thuộc backend (nhưng không block hoàn toàn)
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    # Expose ra ngoài qua cổng 80
+    ports:
+      - "80:80"
+
+    restart: unless-stopped
+
+    networks:
+      - bkfc_net
+
+
+# ── VOLUMES (lưu trữ bền vững) ─────────────────────────
+volumes:
+  pdf_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend/data     # Bind mount tới thư mục thật trên host
+
+  faiss_db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend/vectorstore
+
+
+# ── NETWORK nội bộ ─────────────────────────────────────
+networks:
+  bkfc_net:
+    driver: bridge

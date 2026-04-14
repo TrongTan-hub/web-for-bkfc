@@ -1,0 +1,62 @@
+# ============================================================
+# render.yaml – Deploy lên Render.com (MIỄN PHÍ)
+# Render free tier: 750 giờ/tháng, RAM 512MB
+# ============================================================
+# Cách dùng:
+#   1. Push code lên GitHub
+#   2. Vào https://render.com → New → Blueprint
+#   3. Chọn repo → Render tự đọc file này và deploy
+
+services:
+
+  # ── BACKEND: FastAPI RAG ──────────────────────────────
+  - type: web
+    name: bkfc-backend
+    runtime: python
+    rootDir: backend           # Thư mục chứa code backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free                 # Free tier
+
+    # Biến môi trường (cấu hình trên Render dashboard)
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false            # Nhập thủ công trên dashboard
+      - key: ADMIN_API_KEY
+        sync: false
+      - key: PORT
+        value: "8000"
+      - key: ENV
+        value: production
+
+    # Disk lưu trữ PDF và Vector DB
+    # Lưu ý: Free tier KHÔNG có persistent disk
+    # → Dữ liệu mất khi container restart
+    # → Nâng lên Starter ($7/tháng) để có persistent disk
+    disk:
+      name: bkfc-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1                # 1GB cho PDF + Vector DB
+
+  # ── FRONTEND: Static Site ─────────────────────────────
+  - type: web
+    name: bkfc-frontend
+    runtime: static
+    rootDir: .                 # Thư mục gốc
+    staticPublishPath: frontend/page1_landing  # Trang chủ mặc định
+    plan: free
+
+    # Các route trỏ về đúng page
+    routes:
+      - type: rewrite
+        source: /form
+        destination: /frontend/page2_form/index.html
+      - type: rewrite
+        source: /result
+        destination: /frontend/page3_result/index.html
+      - type: rewrite
+        source: /chat
+        destination: /frontend/page4_chat/index.html
+      - type: rewrite
+        source: /admin
+        destination: /admin/index.html

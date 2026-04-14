@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tính Điểm Xét Tuyển – BK HCM 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======= HEADER ======= -->
+  <div class="form-header">
+    <div class="form-header-logo">BK</div>
+    <div class="form-header-title">
+      Công Cụ Tính Điểm Phương Thức Xét Tuyển Tổng Hợp<br>
+      Đại Học Bách Khoa HCM 2026
+    </div>
+    <!-- Nút quay về trang chủ -->
+    <button id="btn-back-home" class="btn-back">← Trang chủ</button>
+  </div>
+
+  <!-- ======= LAYOUT 2 CỘT ======= -->
+  <div class="form-layout">
+
+    <!-- ===== CỘT TRÁI: CÁC KHỐI NHẬP LIỆU ===== -->
+    <div class="form-left">
+
+      <!-- KHỐI 1: Quy đổi chứng chỉ tiếng Anh -->
+      <div class="form-section">
+        <div class="section-title">Quy đổi chứng chỉ Tiếng Anh → điểm thi THPT</div>
+        <p class="section-note">Chọn loại chứng chỉ, nhập điểm → hệ thống tra bảng quy đổi 2026 và tự điền vào ô bạn chọn</p>
+
+        <!-- Radio chọn loại chứng chỉ -->
+        <div class="cert-radios">
+          <label><input type="radio" name="cert" value="IELTS"> IELTS (Academic)</label>
+          <label><input type="radio" name="cert" value="PTE">   PTE (Academic)</label>
+          <label><input type="radio" name="cert" value="TOEFL"> TOEFL iBT</label>
+          <label><input type="radio" name="cert" value="TOEIC"> TOEIC</label>
+        </div>
+
+        <!-- Nhập điểm và tra bảng -->
+        <div class="cert-row">
+          <input type="text" id="cert-score" placeholder="Điểm IELTS / PTE / TOEFL / TOEIC" />
+          <button id="btn-lookup" class="btn-lookup">Tra bảng</button>
+        </div>
+        <span class="link-small">Xem bảng quy đổi 2026</span>
+      </div>
+
+      <!-- KHỐI 2: Chọn trường hợp thí sinh -->
+      <div class="form-section">
+        <div class="section-title">Chọn trường hợp của thí sinh</div>
+        <div class="radio-group">
+          <label><input type="radio" name="codinh" value="co" checked> Có thi ĐGNL</label>
+          <label><input type="radio" name="codinh" value="khong"> Không thi ĐGNL</label>
+        </div>
+      </div>
+
+      <!-- KHỐI 3: Điểm học bạ -->
+      <div class="form-section">
+        <div class="section-title">Nhập điểm học bạ ( *Dùng dấu (.) cho số thập phân )</div>
+        <!-- 3 cột × 3 hàng = 9 ô: Toán/Lý/Hóa,Anh lớp 10-12 -->
+        <div class="score-grid">
+          <input type="text" id="toan10" placeholder="Toán 10">
+          <input type="text" id="ly10"   placeholder="Lý 10">
+          <input type="text" id="hoa10"  placeholder="Hóa,Anh 10">
+          <input type="text" id="toan11" placeholder="Toán 11">
+          <input type="text" id="ly11"   placeholder="Lý 11">
+          <input type="text" id="hoa11"  placeholder="Hóa,Anh 11">
+          <input type="text" id="toan12" placeholder="Toán 12">
+          <input type="text" id="ly12"   placeholder="Lý 12">
+          <input type="text" id="hoa12"  placeholder="Hóa,Anh 12">
+        </div>
+      </div>
+
+      <!-- KHỐI 4: Điểm thi THPT -->
+      <div class="form-section">
+        <div class="section-title">Nhập điểm thi THPT</div>
+        <div class="thpt-grid">
+          <input type="text" id="thpt1" placeholder="Môn 1">
+          <input type="text" id="thpt2" placeholder="Môn 2">
+          <input type="text" id="thpt3" placeholder="Môn 3">
+        </div>
+      </div>
+
+      <!-- KHỐI 5: Điểm ĐGNL -->
+      <div class="form-section">
+        <div class="section-title">Nhập các cột điểm thành phần của thi ĐGNL</div>
+        <div class="dgnl-grid">
+          <input type="text" id="dgnl-ngonngu" placeholder="Ngôn ngữ">
+          <input type="text" id="dgnl-toanh"   placeholder="Toán học">
+          <input type="text" id="dgnl-tuduy"    placeholder="Tư duy KH">
+        </div>
+      </div>
+
+      <!-- KHỐI 6: Khu vực & Ưu tiên -->
+      <div class="form-section">
+        <div class="section-title">Chọn khu vực sinh sống</div>
+        <div class="kuvuc-radios">
+          <label><input type="radio" name="kuvuc" value="KV1">       KV1</label>
+          <label><input type="radio" name="kuvuc" value="KV2">       KV2</label>
+          <label><input type="radio" name="kuvuc" value="KV3" checked> KV3</label>
+          <label><input type="radio" name="kuvuc" value="KV2NT">     KV2-NT</label>
+        </div>
+
+        <!-- Đối tượng ưu tiên -->
+        <div class="sub-block">
+          <div class="sub-label">Chọn đối tượng ưu tiên</div>
+          <div class="kuvuc-radios">
+            <label><input type="radio" name="uutien" value="UT1"> Đối tượng ưu tiên 1</label>
+            <label><input type="radio" name="uutien" value="UT2"> Đối tượng ưu tiên 2</label>
+            <label><input type="radio" name="uutien" value="none" checked> Không có</label>
+          </div>
+        </div>
+
+        <!-- Điểm cộng -->
+        <div class="sub-block">
+          <div class="sub-note">Nhập điểm cộng (tra cứu tại mybk, phần kết quả xét tuyển)</div>
+          <input type="text" id="input-diem-cong" placeholder="Điểm cộng" />
+        </div>
+      </div>
+
+      <!-- NÚT TÍNH TOÁN -->
+      <button id="btn-calculate">Tính Toán</button>
+
+    </div><!-- /form-left -->
+
+    <!-- ===== CỘT PHẢI: ẢNH TRƯỜNG ===== -->
+    <div class="form-right">
+      <div class="form-right-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/HCM_City_University_of_Technology_%28HCMUT%29.jpg/640px-HCM_City_University_of_Technology_%28HCMUT%29.jpg"
+             alt="Trường ĐH Bách Khoa HCM" />
+      </div>
+      <div class="form-right-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Main_gate_HCMUT.jpg/640px-Main_gate_HCMUT.jpg"
+             alt="Cổng chính Bách Khoa" />
+      </div>
+    </div>
+
+  </div><!-- /form-layout -->
+
+  <script src="script.js"></script>
+</body>
+</html>

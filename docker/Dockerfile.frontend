@@ -1,0 +1,25 @@
+# ============================================================
+# Dockerfile – Frontend (Nginx static server)
+# Phục vụ toàn bộ HTML/CSS/JS qua Nginx
+# ============================================================
+
+FROM nginx:1.25-alpine
+
+# --- Metadata ---
+LABEL description="BK HCM Frontend Static Server"
+
+# --- Xóa cấu hình Nginx mặc định ---
+RUN rm -rf /usr/share/nginx/html/*
+
+# --- Copy toàn bộ frontend vào Nginx ---
+COPY frontend/ /usr/share/nginx/html/frontend/
+COPY admin/    /usr/share/nginx/html/admin/
+
+# --- Copy cấu hình Nginx tùy chỉnh ---
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+# --- Expose cổng HTTP ---
+EXPOSE 80
+
+# --- Lệnh khởi động Nginx ---
+CMD ["nginx", "-g", "daemon off;"]

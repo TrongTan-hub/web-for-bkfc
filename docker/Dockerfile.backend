@@ -1,0 +1,49 @@
+# ============================================================
+# Dockerfile – Backend FastAPI RAG
+# Base image: Python 3.11 slim (nhẹ, ổn định)
+# ============================================================
+
+FROM python:3.11-slim
+
+# --- Metadata ---
+LABEL maintainer="BKFC Team"
+LABEL description="BK HCM Tuyển Sinh RAG Backend"
+
+# --- Biến môi trường ---
+ENV PYTHONDONTWRITEBYTECODE=1   \
+    PYTHONUNBUFFERED=1          \
+    PIP_NO_CACHE_DIR=1          \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# --- Thư mục làm việc trong container ---
+WORKDIR /app
+
+# --- Cài đặt dependency hệ thống ---
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Copy requirements trước (tận dụng Docker layer cache) ---
+COPY backend/requirements.txt .
+
+# --- Cài đặt Python packages ---
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# --- Copy toàn bộ source code ---
+COPY backend/ .
+
+# --- Tạo thư mục cần thiết ---
+RUN mkdir -p data vectorstore/db_faiss
+
+# --- Expose cổng FastAPI ---
+EXPOSE 8000
+
+# --- Health check ---
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8000/api/health || exit 1
+
+# --- Lệnh khởi động ---
+# workers=1 vì model embedding cần RAM, tăng nếu server đủ RAM
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

@@ -1,0 +1,23 @@
+# ── Secrets ───────────────────────────────
+.env
+*.env
+!backend/.env.example
+
+# ── Python ────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# ── Dữ liệu và Vector DB (không commit) ───
+backend/data/*.pdf
+backend/vectorstore/
+
+# ── OS ────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ───────────────────────────────────
+.vscode/
+.idea/

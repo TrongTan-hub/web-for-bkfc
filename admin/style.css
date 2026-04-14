@@ -1,0 +1,414 @@
+/* =============================================
+   RESET & BIẾN CSS
+============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-dark:  #003087;
+  --blue-main:  #1455C0;
+  --blue-light: #4A90D9;
+  --bg-page:    #f0f4fb;
+  --white:      #FFFFFF;
+  --text-dark:  #1a1a2e;
+  --text-mid:   #445;
+  --border:     #d0dcea;
+  --green:      #22c55e;
+  --red:        #e8455a;
+  --orange:     #f59e0b;
+  --shadow:     0 2px 12px rgba(0,48,135,0.1);
+}
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* =============================================
+   HEADER
+============================================= */
+.admin-header {
+  background: var(--blue-dark);
+  color: #fff;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.header-logo {
+  width: 44px; height: 44px;
+  background: #B01020;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  flex-shrink: 0;
+}
+
+.header-title h1 { font-family: 'Roboto Condensed', sans-serif; font-size: 20px; }
+.header-title p  { font-size: 12px; color: #8aabdc; margin-top: 2px; }
+
+/* Status badge */
+.header-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+.header-status .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.5s infinite;
+}
+.header-status.connected .dot { background: var(--green); animation: none; }
+.header-status.error .dot     { background: var(--red); animation: none; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* =============================================
+   MAIN LAYOUT 2 CỘT
+============================================= */
+.admin-main {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* =============================================
+   CARD
+============================================= */
+.admin-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.admin-card:last-child { margin-bottom: 0; }
+
+.card-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--blue-light);
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--blue-light);
+}
+.card-title-row .card-title { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.card-desc {
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+/* =============================================
+   FORM
+============================================= */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: 'Roboto', sans-serif;
+}
+.input-row input:focus { border-color: var(--blue-main); }
+
+.hint {
+  font-size: 11px;
+  color: #889;
+  margin-top: 5px;
+}
+.hint code {
+  background: #f0f4fb;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+/* Auth status */
+.auth-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #166534;
+  margin-top: 10px;
+}
+.auth-icon { font-size: 16px; }
+.hidden { display: none !important; }
+
+/* =============================================
+   DROP ZONE
+============================================= */
+.drop-zone {
+  border: 2px dashed var(--blue-light);
+  border-radius: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 14px;
+}
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--blue-main);
+  background: #eaf2fb;
+}
+
+.drop-icon  { font-size: 36px; margin-bottom: 8px; }
+.drop-text  { font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 6px; }
+.drop-sub   { font-size: 12px; color: #889; margin-bottom: 10px; }
+
+.btn-upload-label {
+  display: inline-block;
+  background: var(--blue-main);
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-upload-label:hover { background: var(--blue-dark); }
+
+/* Danh sách file đã chọn */
+.selected-files {
+  background: #f8fbff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+.selected-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text-mid); }
+.selected-files ul { list-style: none; padding: 0; }
+.selected-files li {
+  font-size: 12px;
+  padding: 4px 0;
+  color: var(--text-dark);
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.selected-files li:last-child { border-bottom: none; }
+
+/* Progress bar */
+.progress-wrap  { margin-top: 12px; }
+.progress-bar   { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.progress-fill  {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-main), var(--blue-light));
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+.progress-wrap p { font-size: 12px; color: var(--text-mid); margin-top: 6px; text-align: center; }
+
+/* =============================================
+   BUTTONS
+============================================= */
+.btn-primary {
+  background: var(--blue-main);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  white-space: nowrap;
+}
+.btn-primary:hover    { background: var(--blue-dark); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-full { width: 100%; padding: 12px; font-size: 14px; }
+
+.btn-warning {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-warning:hover { background: #d97706; }
+
+.btn-sm {
+  background: #f0f4fb;
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+  border-radius: 5px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Roboto', sans-serif;
+}
+.btn-sm:hover { background: #e2e8f0; }
+
+.btn-danger-sm {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+.btn-danger-sm:hover { background: #fecaca; }
+
+/* Nút xóa trong bảng */
+.btn-delete {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: 'Roboto', sans-serif;
+}
+.btn-delete:hover { background: #fecaca; }
+
+/* =============================================
+   BẢNG FILE
+============================================= */
+.file-table-wrap {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.file-table th {
+  text-align: left;
+  padding: 10px 12px;
+  background: #f0f4fb;
+  color: var(--blue-dark);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+}
+
+.file-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #eef2f8;
+  vertical-align: middle;
+}
+
+.file-table tr:hover td { background: #f8fbff; }
+
+.empty-row { text-align: center; color: #889; font-style: italic; padding: 20px !important; }
+
+/* =============================================
+   STATUS GRID
+============================================= */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.status-item {
+  background: #f8fbff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.status-label { font-size: 11px; color: #889; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-val   { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+.status-val.ok      { color: var(--green); }
+.status-val.error   { color: var(--red); }
+.status-val.pending { color: var(--orange); }
+
+/* =============================================
+   LOG HOẠT ĐỘNG
+============================================= */
+.activity-log {
+  background: #0f172a;
+  border-radius: 8px;
+  padding: 14px;
+  max-height: 240px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 10px;
+  /* Thanh cuộn custom */
+  scrollbar-width: thin;
+  scrollbar-color: #334 transparent;
+}
+
+.log-item        { padding: 2px 0; }
+.log-item.log-info    { color: #7dd3fc; }
+.log-item.log-success { color: #86efac; }
+.log-item.log-warning { color: #fde68a; }
+.log-item.log-error   { color: #fca5a5; }
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 900px) {
+  .admin-main { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .admin-header { padding: 12px 16px; }
+  .status-grid  { grid-template-columns: 1fr; }
+}

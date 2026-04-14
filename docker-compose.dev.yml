@@ -1,0 +1,56 @@
+# ============================================================
+# docker-compose.dev.yml – Phát triển (hot reload)
+# Chạy: docker compose -f docker-compose.dev.yml up
+# ============================================================
+
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: bkfc_backend_dev
+
+    env_file:
+      - backend/.env
+
+    volumes:
+      - ./backend:/app         # Mount toàn bộ code để hot reload
+      - pdf_data_dev:/app/data
+      - faiss_db_dev:/app/vectorstore
+
+    # Dùng --reload để tự động tải lại khi sửa code
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+    # Expose ra ngoài để test Swagger UI tại http://localhost:8000/docs
+    ports:
+      - "8000:8000"
+
+    networks:
+      - bkfc_dev_net
+
+
+  frontend:
+    # Dev: Dùng Python http.server đơn giản (không cần build Nginx)
+    image: python:3.11-slim
+    container_name: bkfc_frontend_dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app/frontend
+      - ./admin:/app/admin
+    command: python -m http.server 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - bkfc_dev_net
+
+
+volumes:
+  pdf_data_dev:
+  faiss_db_dev:
+
+networks:
+  bkfc_dev_net:
+    driver: bridge
