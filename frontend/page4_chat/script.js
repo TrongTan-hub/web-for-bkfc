@@ -10,7 +10,7 @@
 ------------------------------------------------------- */
 const API_CONFIG = {
   // Endpoint của FastAPI backend RAG
-  endpoint: 'http://localhost:8000/api/chat',
+  endpoint: "http://localhost:8000/api/chat",
   // Timeout tối đa mỗi request (ms)
   timeout: 30000,
 };
@@ -23,15 +23,18 @@ let chatHistory = [];
 /* -------------------------------------------------------
    TÌM PHẦN TỬ DOM
 ------------------------------------------------------- */
-const messagesDiv = document.getElementById('chat-messages');
-const chatInput   = document.getElementById('chat-input');
-const btnSend     = document.getElementById('btn-send');
+const messagesDiv = document.getElementById("chat-messages");
+const chatInput = document.getElementById("chat-input");
+const btnSend = document.getElementById("btn-send");
 
 /* -------------------------------------------------------
    HÀM TẠO THỜI GIAN HIỆN TẠI
 ------------------------------------------------------- */
 function nowTime() {
-  return new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+  return new Date().toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 /* -------------------------------------------------------
@@ -41,11 +44,11 @@ function nowTime() {
 ------------------------------------------------------- */
 function addBotMessage(html, chips = []) {
   const chipsHtml = chips.length
-    ? `<div class="quick-chips">${chips.map(c => `<span class="chip" data-msg="${c}">${c}</span>`).join('')}</div>`
-    : '';
+    ? `<div class="quick-chips">${chips.map((c) => `<span class="chip" data-msg="${c}">${c}</span>`).join("")}</div>`
+    : "";
 
-  const el = document.createElement('div');
-  el.className = 'msg-row bot';
+  const el = document.createElement("div");
+  el.className = "msg-row bot";
   el.innerHTML = `
     <div class="msg-avatar">🎓</div>
     <div>
@@ -57,8 +60,8 @@ function addBotMessage(html, chips = []) {
   scrollToBottom();
 
   // Gán sự kiện cho chip mới được tạo
-  el.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => sendMessage(chip.dataset.msg));
+  el.querySelectorAll(".chip").forEach((chip) => {
+    chip.addEventListener("click", () => sendMessage(chip.dataset.msg));
   });
 }
 
@@ -66,8 +69,8 @@ function addBotMessage(html, chips = []) {
    HÀM THÊM TIN NHẮN USER
 ------------------------------------------------------- */
 function addUserMessage(text) {
-  const el = document.createElement('div');
-  el.className = 'msg-row user';
+  const el = document.createElement("div");
+  el.className = "msg-row user";
   el.innerHTML = `
     <div class="msg-avatar">👤</div>
     <div>
@@ -82,9 +85,9 @@ function addUserMessage(text) {
    HIỆN / ẨN TYPING INDICATOR
 ------------------------------------------------------- */
 function showTyping() {
-  const el = document.createElement('div');
-  el.className = 'msg-row bot';
-  el.id = 'typing-indicator';
+  const el = document.createElement("div");
+  el.className = "msg-row bot";
+  el.id = "typing-indicator";
   el.innerHTML = `
     <div class="msg-avatar">🎓</div>
     <div class="typing-indicator">
@@ -97,7 +100,7 @@ function showTyping() {
 }
 
 function removeTyping() {
-  document.getElementById('typing-indicator')?.remove();
+  document.getElementById("typing-indicator")?.remove();
 }
 
 /* -------------------------------------------------------
@@ -112,10 +115,10 @@ function scrollToBottom() {
 ------------------------------------------------------- */
 function escapeHtml(str) {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 /* -------------------------------------------------------
@@ -125,14 +128,14 @@ function escapeHtml(str) {
 ------------------------------------------------------- */
 async function callRAGApi(question) {
   const controller = new AbortController();
-  const timeoutId  = setTimeout(() => controller.abort(), API_CONFIG.timeout);
+  const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
 
   try {
     const res = await fetch(API_CONFIG.endpoint, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ question, history: chatHistory }),
-      signal:  controller.signal,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, history: chatHistory }),
+      signal: controller.signal,
     });
 
     clearTimeout(timeoutId);
@@ -140,15 +143,14 @@ async function callRAGApi(question) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
-    return data.answer || 'Xin lỗi, có lỗi xảy ra. Bạn thử lại nhé!';
-
+    return data.answer || "Xin lỗi, có lỗi xảy ra. Bạn thử lại nhé!";
   } catch (err) {
     clearTimeout(timeoutId);
-    if (err.name === 'AbortError') {
-      return 'Yêu cầu quá thời gian. Vui lòng thử lại!';
+    if (err.name === "AbortError") {
+      return "Yêu cầu quá thời gian. Vui lòng thử lại!";
     }
     // Nếu backend chưa chạy → dùng fallback local
-    console.warn('Backend không phản hồi, dùng fallback:', err.message);
+    console.warn("Backend không phản hồi, dùng fallback:", err.message);
     return getFallbackReply(question);
   }
 }
@@ -159,7 +161,7 @@ async function callRAGApi(question) {
 ------------------------------------------------------- */
 const FALLBACK_RULES = [
   {
-    keys: ['xét tuyển', 'phương thức', 'cách tính', 'điểm xét'],
+    keys: ["xét tuyển", "phương thức", "cách tính", "điểm xét"],
     reply: `BK HCM 2026 áp dụng <strong>Phương thức Xét Tuyển Tổng Hợp</strong>:<br>
       • <strong>Điểm học lực</strong> (học bạ Toán, Lý, Hóa/Anh lớp 10-12)<br>
       • <strong>Điểm ưu tiên</strong> (khu vực + đối tượng)<br>
@@ -167,7 +169,7 @@ const FALLBACK_RULES = [
       Dùng <a href="../page2_form/index.html" style="color:#90caff;">công cụ tính điểm</a> để tính ngay! 🎯`,
   },
   {
-    keys: ['ngành', 'khoa', 'chương trình', 'học gì'],
+    keys: ["ngành", "khoa", "chương trình", "học gì"],
     reply: `BK HCM có <strong>18+ ngành đại trà</strong> và <strong>5 ngành OISP</strong>. Hot nhất:<br>
       🔹 Khoa học máy tính (~85.41)<br>
       🔹 Khoa học dữ liệu (~83.85)<br>
@@ -175,37 +177,37 @@ const FALLBACK_RULES = [
       🔹 CS OISP (~88.00)<br>Bạn quan tâm ngành nào?`,
   },
   {
-    keys: ['oisp', 'tiếng anh', 'tiên tiến'],
+    keys: ["oisp", "tiếng anh", "tiên tiến"],
     reply: `<strong>Chương trình OISP</strong> giảng dạy hoàn toàn bằng tiếng Anh, hợp tác ĐH Mỹ:<br>
       💰 Học phí: ~120-150 triệu/năm<br>📈 Điểm chuẩn cao hơn đại trà ~2-3 điểm<br>✈️ Cơ hội chuyển tiếp học nước ngoài`,
   },
   {
-    keys: ['học phí', 'chi phí', 'tiền'],
+    keys: ["học phí", "chi phí", "tiền"],
     reply: `Học phí BK HCM 2026 (dự kiến):<br>
       💰 Đại trà: ~25-35 triệu/năm<br>
       💰 OISP: ~120-150 triệu/năm<br>
       📌 Có nhiều học bổng hỗ trợ.`,
   },
   {
-    keys: ['dgnl', 'đánh giá năng lực'],
+    keys: ["dgnl", "đánh giá năng lực"],
     reply: `<strong>Kỳ thi ĐGNL ĐHQG HCM</strong> gồm 3 phần:<br>
       📖 Ngôn ngữ (≤40đ) | 🔢 Toán học (≤50đ) | 🔬 Tư duy KH (≤60đ)<br>
       <strong>Tổng tối đa: 150 điểm.</strong>`,
   },
   {
-    keys: ['ielts', 'toefl', 'pte', 'toeic', 'chứng chỉ'],
+    keys: ["ielts", "toefl", "pte", "toeic", "chứng chỉ"],
     reply: `Chứng chỉ tiếng Anh quốc tế quy đổi sang điểm THPT:<br>
       🏅 IELTS 8.0+ → 10đ | IELTS 7.0 → 9.5đ | IELTS 6.0 → 8.5đ<br>
       Dùng công cụ quy đổi trong trang Tính Điểm! ✅`,
   },
   {
-    keys: ['khu vực', 'kv1', 'kv2', 'ưu tiên'],
+    keys: ["khu vực", "kv1", "kv2", "ưu tiên"],
     reply: `Điểm ưu tiên khu vực 2026:<br>
       📍 KV1: +2.00 | KV2-NT: +1.50 | KV2: +1.00 | KV3: 0<br>
       UT1: +2.00 | UT2: +1.00`,
   },
   {
-    keys: ['lịch', 'deadline', 'hạn nộp', 'thời gian'],
+    keys: ["lịch", "deadline", "hạn nộp", "thời gian"],
     reply: `Lịch tuyển sinh BK HCM 2026 (dự kiến):<br>
       📅 T3-4/2026: Đăng ký nguyện vọng<br>
       📅 T6/2026: Thi THPT & ĐGNL<br>
@@ -216,7 +218,7 @@ const FALLBACK_RULES = [
 function getFallbackReply(text) {
   const lower = text.toLowerCase();
   for (const rule of FALLBACK_RULES) {
-    if (rule.keys.some(k => lower.includes(k))) return rule.reply;
+    if (rule.keys.some((k) => lower.includes(k))) return rule.reply;
   }
   return `Cảm ơn câu hỏi của bạn! Thông tin chi tiết:<br>
     📞 Hotline: <strong>028 3864 8987</strong><br>
@@ -233,8 +235,8 @@ async function sendMessage(text) {
   if (!question) return;
 
   // Reset input
-  chatInput.value = '';
-  chatInput.style.height = 'auto';
+  chatInput.value = "";
+  chatInput.style.height = "auto";
 
   // Disable nút gửi trong lúc chờ
   btnSend.disabled = true;
@@ -243,7 +245,7 @@ async function sendMessage(text) {
   addUserMessage(question);
 
   // Lưu vào lịch sử
-  chatHistory.push({ role: 'user', content: question });
+  chatHistory.push({ role: "user", content: question });
 
   // Hiện typing indicator
   showTyping();
@@ -256,7 +258,7 @@ async function sendMessage(text) {
   addBotMessage(answer);
 
   // Lưu câu trả lời vào lịch sử
-  chatHistory.push({ role: 'assistant', content: answer });
+  chatHistory.push({ role: "assistant", content: answer });
 
   // Bật lại nút gửi
   btnSend.disabled = false;
@@ -266,7 +268,7 @@ async function sendMessage(text) {
 /* -------------------------------------------------------
    KHỞI TẠO KHI DOM TẢI
 ------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Tin nhắn chào mở đầu
   addBotMessage(
     `Xin chào! 👋 Mình là <strong>Chuyên viên Tư vấn Tuyển Sinh Bách Khoa HCM</strong>.<br>
@@ -277,33 +279,33 @@ document.addEventListener('DOMContentLoaded', () => {
     Bạn muốn hỏi gì? 😊`,
     // Chip gợi ý nhanh
     [
-      'Phương thức xét tuyển',
-      'Các ngành học',
-      'Học phí OISP',
-      'Lịch tuyển sinh 2026',
-      'Ưu tiên khu vực',
-    ]
+      "Phương thức xét tuyển",
+      "Các ngành học",
+      "Học phí OISP",
+      "Lịch tuyển sinh 2026",
+      "Ưu tiên khu vực",
+    ],
   );
 
   // Nút gửi
-  btnSend.addEventListener('click', () => sendMessage());
+  btnSend.addEventListener("click", () => sendMessage());
 
   // Nhấn Enter gửi (Shift+Enter xuống dòng)
-  chatInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   });
 
   // Auto resize textarea
-  chatInput.addEventListener('input', function () {
-    this.style.height = 'auto';
-    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  chatInput.addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = Math.min(this.scrollHeight, 120) + "px";
   });
 
   // Nút quay về trang chủ
-  document.getElementById('btn-back-home').addEventListener('click', () => {
-    window.location.href = '../page1_landing/index.html';
+  document.getElementById("btn-back-home").addEventListener("click", () => {
+    window.location.href = "../page1_landing/index.html";
   });
 });

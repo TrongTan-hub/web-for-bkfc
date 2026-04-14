@@ -1,90 +1,103 @@
 /* =============================================
-   RESET & BIẾN CSS TOÀN CỤC
+    RESET & BIẾN CSS TOÀN CỤC
 ============================================= */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  --blue-dark:  #003087;
-  --blue-main:  #1455C0;
-  --blue-light: #4A90D9;
-  --white:      #FFFFFF;
-  --text-dark:  #1A1A2E;
-  --shadow:     0 4px 20px rgba(0,48,135,0.15);
+  --blue-dark: #003087;
+  --blue-main: #1455c0;
+  --blue-light: #4a90d9;
+  --bg-light: #eaf2fb;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-mid: #444466;
+  --accent: #f5a623;
+  --red-dot: #e8455a;
+  --shadow: 0 4px 20px rgba(0, 48, 135, 0.15);
 }
 
-html, body {
-  font-family: 'Roboto', sans-serif;
-  background: #0d1b3e;
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  background: #1a1a2e;
   color: var(--white);
-  overflow: hidden; /* Không cuộn trên landing */
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+  overflow-x: hidden;
+  /* Thay đổi: Dùng min-height để linh hoạt hơn trên mobile */
+  min-height: 100vh;
+  width: 100%;
 }
 
 /* =============================================
-   HÌNH NỀN – ANIMATE TỪ TRÁI SANG PHẢI 1S
+    LANDING PAGE – NỀN + OVERLAY
 ============================================= */
 #landing-bg {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  /* Ảnh trường BK – thay bằng ảnh thật nếu muốn */
-  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/HCM_City_University_of_Technology_%28HCMUT%29.jpg/1280px-HCM_City_University_of_Technology_%28HCMUT%29.jpg')
-    center / cover no-repeat;
-  /* Ban đầu ẩn hoàn toàn bên phải, sau đó lộ dần từ trái sang phải */
   clip-path: inset(0 100% 0 0);
-  animation: revealFromLeft 1s ease-out 0.3s forwards;
+  animation: revealLeft 1s ease-out 0.3s forwards;
   opacity: 0.55;
-  z-index: 0;
 }
 
-/* Animation lộ ảnh từ trái sang phải */
-@keyframes revealFromLeft {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0%   0 0); }
+#landing-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Lớp phủ gradient giúp text dễ đọc */
+@keyframes revealLeft {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
 #landing-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(0, 20, 80, 0.88) 0%,
-    rgba(0, 20, 80, 0.45) 55%,
+    rgba(0, 20, 80, 0.85) 0%,
+    rgba(0, 20, 80, 0.4) 55%,
     transparent 100%
   );
-  z-index: 1;
 }
 
 /* =============================================
-   NỘI DUNG CHÍNH
+    NỘI DUNG CHÍNH
 ============================================= */
 #landing-content {
   position: relative;
   z-index: 10;
-  padding: 40px 60px 0;
-  /* Tránh bị che bởi 3 card phía dưới */
-  padding-bottom: 140px;
+  /* Thay đổi: Dùng đơn vị linh hoạt để text không bị sát mép */
+  padding: 8vh 6vw 0;
 }
 
-/* Logo trường góc trên trái */
 #landing-logos {
   display: flex;
+  overflow: hidden;
   gap: 12px;
   align-items: center;
-  margin-bottom: 60px;
+  margin-bottom: 5vh;
   animation: fadeInDown 0.6s ease 1.4s both;
+}
+
+#landing-logos img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .logo-badge {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,36 +105,32 @@ html, body {
   font-size: 11px;
   letter-spacing: -0.5px;
 }
-.logo-bk   { background: #B01020; color: #fff; }
-.logo-dh   { background: var(--blue-dark); color: #fff; }
-.logo-bkfc { background: #e8a000; color: #fff; font-size: 9px; }
 
-/* Tiêu đề chính */
 #landing-title {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: clamp(28px, 4vw, 52px);
+  font-family: "Roboto Condensed", sans-serif;
+  /* Thay đổi: Dùng clamp để tự scale cỡ chữ theo màn hình */
+  font-size: clamp(26px, 4.5vw, 52px);
   font-weight: 700;
   color: var(--white);
   line-height: 1.15;
-  max-width: 580px;
+  max-width: 600px;
   animation: fadeInUp 0.7s ease 1.5s both;
 }
 
 #landing-subtitle {
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 18px);
   color: #c8d8f0;
   margin-top: 10px;
   animation: fadeInUp 0.7s ease 1.7s both;
 }
 
 #landing-sub2 {
-  font-size: 13px;
+  font-size: clamp(11px, 1.2vw, 14px);
   color: #8aabdc;
   margin-top: 4px;
   animation: fadeInUp 0.7s ease 1.8s both;
 }
 
-/* Nút Bắt đầu */
 #btn-start {
   margin-top: 32px;
   display: inline-block;
@@ -134,7 +143,9 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
   letter-spacing: 0.3px;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   animation: fadeInUp 0.7s ease 1.9s both;
 }
 #btn-start:hover {
@@ -143,41 +154,48 @@ html, body {
 }
 
 /* =============================================
-   3 CARD PHÍA DƯỚI
+    3 Ô THÔNG TIN PHÍA DƯỚI
 ============================================= */
 #landing-cards {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  width: 100%;
   display: flex;
-  z-index: 10;
+  justify-content: space-around;
   animation: fadeInUp 0.7s ease 2.1s both;
+  z-index: 20;
 }
 
 .landing-card {
   flex: 1;
-  background: rgba(0, 0, 0, 0.58);
-  backdrop-filter: blur(6px);
-  border-top: 2px solid rgba(255, 255, 255, 0.12);
-  padding: 20px 24px;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  /* Thay đổi: Align Center để đồng nhất tỉ lệ */
+  padding: 15px 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .landing-card:hover {
-  background: rgba(20, 85, 192, 0.55);
+  background: rgba(20, 85, 192, 0.5);
 }
+
 .landing-card + .landing-card {
   border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Icon tròn trong card */
 .card-icon {
-  width: 42px;
-  height: 42px;
+  width: clamp(32px, 4vw, 42px);
+  height: clamp(32px, 4vw, 42px);
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.35);
   display: flex;
@@ -185,46 +203,93 @@ html, body {
   justify-content: center;
   flex-shrink: 0;
 }
+
 .card-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 50%;
+  height: 50%;
   stroke: #fff;
   fill: none;
   stroke-width: 2;
 }
 
 .card-title {
-  font-size: 13px;
+  /* Thay đổi: Dùng vw để chữ tự co lại trên mobile */
+  font-size: clamp(10px, 1.1vw, 13px);
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align: center;
 }
+
 .card-more {
-  font-size: 12px;
+  font-size: 11px;
   color: #8aabdc;
   margin-top: 2px;
 }
 
 /* =============================================
-   KEYFRAME ANIMATIONS
+    KEYFRAME ANIMATIONS
 ============================================= */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
-
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-16px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* =============================================
-   RESPONSIVE
+    RESPONSIVE
 ============================================= */
 @media (max-width: 680px) {
-  #landing-content { padding: 28px 20px 0; }
-  #landing-title   { font-size: 26px; }
-  #landing-cards   { flex-direction: column; position: static; }
-  body             { overflow-y: auto; height: auto; }
+  #landing-content {
+    padding: 6vh 20px 0;
+    text-align: center; /* Căn giữa để cân đối trên mobile */
+  }
+
+  #landing-logos {
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  #landing-title {
+    margin: 0 auto;
+  }
+
+  #landing-cards {
+    flex-direction: row; /* Ép nằm ngang như yêu cầu */
+  }
+
+  .landing-card {
+    padding: 12px 4px;
+    gap: 4px;
+  }
+
+  .card-more {
+    display: none; /* Ẩn bớt để không bị chật màn hình */
+  }
+
+  .card-title {
+    font-size: 2.8vw; /* Tỉ lệ vàng để không mất chữ trên mobile */
+    letter-spacing: 0;
+  }
+
+  body {
+    height: auto;
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+  }
 }

@@ -1,104 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kết Quả Xét Tuyển – BK HCM 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-  <!-- THANH TÓM TẮT ĐIỂM TỔNG -->
-  <div id="result-summary-bar">
-    Vậy tổng điểm xét tuyển của bạn là
-    [<strong>Điểm học lực</strong>] + [<strong>Điểm cộng</strong>] + [<strong>Điểm ưu tiên</strong>] =
-    <strong id="val-hocluc">--</strong> +
-    <strong id="val-cong">--</strong> +
-    <strong id="val-uutien">--</strong> =
-    <strong id="val-total">--</strong>
-  </div>
-
-  <div class="result-container">
-
-    <!-- Nút quay lại -->
-    <div class="result-actions">
-      <button id="btn-back-form"  class="btn-outline">← Quay lại chỉnh sửa</button>
-      <button id="btn-back-home"  class="btn-outline">⌂ Trang chủ</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết Quả Xét Tuyển – BK HCM 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- THANH TÓM TẮT ĐIỂM TỔNG -->
+    <div id="result-summary-bar">
+      Vậy tổng điểm xét tuyển của bạn là [<strong>Điểm học lực</strong>] +
+      [<strong>Điểm cộng</strong>] + [<strong>Điểm ưu tiên</strong>] =
+      <strong id="val-hocluc">--</strong> + <strong id="val-cong">--</strong> +
+      <strong id="val-uutien">--</strong> =
+      <strong id="val-total">--</strong>
     </div>
 
-    <!-- ===== NHÓM 1: NGÀNH ĐỦ ĐIỂM ===== -->
-    <div class="result-group">
-
-      <!-- Tiêu đề nhóm -->
-      <div class="result-group-header">
-        <span>1. Các ngành bạn đủ điểm</span>
-        <span class="count" id="count-pass">0/0 ngành</span>
+    <div class="result-container">
+      <!-- Nút quay lại -->
+      <div class="result-actions">
+        <button id="btn-back-form" class="btn-outline">
+          ← Quay lại chỉnh sửa
+        </button>
       </div>
 
-      <!-- Accordion: Chương trình đại trà -->
-      <div class="program-accordion">
-        <div class="program-header" data-target="pass-datra">
-          <!-- Mũi tên xoay khi mở/đóng -->
-          <div class="program-arrow" id="arrow-pass-datra"></div>
-          <div class="program-name">▶ Chương trình đại trà</div>
-          <div class="program-label">Điểm chuẩn</div>
+      <!-- ===== NHÓM 1: NGÀNH ĐỦ ĐIỂM ===== -->
+      <div class="result-group">
+        <!-- Tiêu đề nhóm -->
+        <div class="result-group-header">
+          <span>1. Các ngành bạn đủ điểm</span>
+          <span class="count" id="count-pass">0/0 ngành</span>
         </div>
-        <div class="program-body" id="pass-datra">
-          <!-- Render bởi JS -->
+
+        <!-- Accordion: Chương trình đại trà -->
+        <div class="program-accordion">
+          <div class="program-header" data-target="pass-datra">
+            <!-- Mũi tên xoay khi mở/đóng -->
+            <div class="program-arrow" id="arrow-pass-datra"></div>
+            <div class="program-name">▶ Chương trình đại trà</div>
+            <div class="program-label">Điểm chuẩn</div>
+          </div>
+          <div class="program-body" id="pass-datra">
+            <!-- Render bởi JS -->
+          </div>
         </div>
-      </div>
 
-      <!-- Accordion: Chương trình OISP -->
-      <div class="program-accordion">
-        <div class="program-header" data-target="pass-oisp">
-          <div class="program-arrow" id="arrow-pass-oisp"></div>
-          <div class="program-name">▶ Chương trình OISP( giảng dạy bằng tiếng Anh, tiên tiến,...)</div>
-          <div class="program-label">Điểm chuẩn</div>
-        </div>
-        <div class="program-body" id="pass-oisp">
-          <!-- Render bởi JS -->
-        </div>
-      </div>
-
-    </div><!-- /result-group pass -->
-
-    <!-- ===== NHÓM 2: NGÀNH KHÔNG ĐỦ ĐIỂM ===== -->
-    <div class="result-group">
-
-      <div class="result-group-header">
-        <span>2. Các khoa/ngành bạn không đủ điểm</span>
-        <span class="count" id="count-fail">0/0 ngành</span>
-      </div>
-
-      <!-- Accordion: Đại trà -->
-      <div class="program-accordion">
-        <div class="program-header" data-target="fail-datra">
-          <div class="program-arrow" id="arrow-fail-datra"></div>
-          <div class="program-name">▶ Chương trình đại trà</div>
-          <div class="program-label">Điểm chuẩn</div>
-        </div>
-        <div class="program-body" id="fail-datra">
-          <!-- Render bởi JS -->
+        <!-- Accordion: Chương trình OISP -->
+        <div class="program-accordion">
+          <div class="program-header" data-target="pass-oisp">
+            <div class="program-arrow" id="arrow-pass-oisp"></div>
+            <div class="program-name">
+              ▶ Chương trình OISP( giảng dạy bằng tiếng Anh, tiên tiến,...)
+            </div>
+            <div class="program-label">Điểm chuẩn</div>
+          </div>
+          <div class="program-body" id="pass-oisp">
+            <!-- Render bởi JS -->
+          </div>
         </div>
       </div>
+      <!-- /result-group pass -->
 
-      <!-- Accordion: OISP -->
-      <div class="program-accordion">
-        <div class="program-header" data-target="fail-oisp">
-          <div class="program-arrow" id="arrow-fail-oisp"></div>
-          <div class="program-name">▶ Chương trình OISP( giảng dạy bằng tiếng Anh, tiên tiến,...)</div>
-          <div class="program-label">Điểm chuẩn</div>
+      <!-- ===== NHÓM 2: NGÀNH KHÔNG ĐỦ ĐIỂM ===== -->
+      <div class="result-group">
+        <div class="result-group-header">
+          <span>2. Các khoa/ngành bạn không đủ điểm</span>
+          <span class="count" id="count-fail">0/0 ngành</span>
         </div>
-        <div class="program-body" id="fail-oisp">
-          <!-- Render bởi JS -->
+
+        <!-- Accordion: Đại trà -->
+        <div class="program-accordion">
+          <div class="program-header" data-target="fail-datra">
+            <div class="program-arrow" id="arrow-fail-datra"></div>
+            <div class="program-name">▶ Chương trình đại trà</div>
+            <div class="program-label">Điểm chuẩn</div>
+          </div>
+          <div class="program-body" id="fail-datra">
+            <!-- Render bởi JS -->
+          </div>
+        </div>
+
+        <!-- Accordion: OISP -->
+        <div class="program-accordion">
+          <div class="program-header" data-target="fail-oisp">
+            <div class="program-arrow" id="arrow-fail-oisp"></div>
+            <div class="program-name">
+              ▶ Chương trình OISP( giảng dạy bằng tiếng Anh, tiên tiến,...)
+            </div>
+            <div class="program-label">Điểm chuẩn</div>
+          </div>
+          <div class="program-body" id="fail-oisp">
+            <!-- Render bởi JS -->
+          </div>
         </div>
       </div>
+      <!-- /result-group fail -->
+    </div>
+    <!-- /result-container -->
 
-    </div><!-- /result-group fail -->
-
-  </div><!-- /result-container -->
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

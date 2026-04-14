@@ -1,68 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tư Vấn Tuyển Sinh – BK HCM 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tư Vấn Tuyển Sinh – BK HCM 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ======= HEADER CHAT ======= -->
+    <div class="chat-header">
+      <!-- Avatar tư vấn viên -->
+      <div class="advisor-avatar">
+        <img
+          src="../logo/Ảnh chụp màn hình 2026-04-14 224922.png"
+          alt="Avatar tư vấn viên"
+        />
+        <div class="online-dot"></div>
+      </div>
 
-  <!-- ======= HEADER CHAT ======= -->
-  <div class="chat-header">
+      <!-- Thông tin tư vấn viên -->
+      <div class="advisor-info">
+        <div class="advisor-name">Chuyên viên Tuyển Sinh BK</div>
+        <div class="advisor-role">Phòng Đào Tạo – ĐH Bách Khoa HCM</div>
+        <div class="advisor-status">● Đang trực tuyến</div>
+      </div>
 
-    <!-- Avatar tư vấn viên -->
-    <div class="advisor-avatar">
-      🎓
-      <div class="online-dot"></div>
+      <!-- Nút quay về trang chủ -->
+      <button id="btn-back-home" class="chat-back-btn">← Trang chủ</button>
     </div>
 
-    <!-- Thông tin tư vấn viên -->
-    <div class="advisor-info">
-      <div class="advisor-name">Chuyên viên Tuyển Sinh BK</div>
-      <div class="advisor-role">Phòng Đào Tạo – ĐH Bách Khoa HCM</div>
-      <div class="advisor-status">● Đang trực tuyến</div>
+    <!-- ======= VÙNG TIN NHẮN ======= -->
+    <div id="chat-messages">
+      <!-- Các tin nhắn được render bởi script.js -->
     </div>
 
-    <!-- Nút quay về trang chủ -->
-    <button id="btn-back-home" class="chat-back-btn">← Trang chủ</button>
-  </div>
+    <!-- ======= KHU VỰC NHẬP TIN NHẮN ======= -->
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <!-- Textarea tự giãn chiều cao -->
+        <textarea
+          id="chat-input"
+          rows="1"
+          placeholder="Nhập câu hỏi của bạn..."
+        ></textarea>
 
-  <!-- ======= VÙNG TIN NHẮN ======= -->
-  <div id="chat-messages">
-    <!-- Các tin nhắn được render bởi script.js -->
-  </div>
+        <!-- Nút gửi tròn -->
+        <button id="btn-send" aria-label="Gửi">
+          <!-- Icon send -->
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </div>
 
-  <!-- ======= KHU VỰC NHẬP TIN NHẮN ======= -->
-  <div class="chat-input-area">
-    <div class="chat-input-row">
-
-      <!-- Textarea tự giãn chiều cao -->
-      <textarea
-        id="chat-input"
-        rows="1"
-        placeholder="Nhập câu hỏi của bạn..."
-      ></textarea>
-
-      <!-- Nút gửi tròn -->
-      <button id="btn-send" aria-label="Gửi">
-        <!-- Icon send -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-      </button>
-
+      <!-- Ghi chú nhỏ -->
+      <p class="chat-note">
+        ⚠️ Đây là tư vấn viên ảo. Thông tin chính thức tại
+        <a
+          href="https://www.facebook.com/Bkfctruongchinh"
+          target="_blank"
+          rel="noopener"
+        >
+          https://www.facebook.com/Bkfctruongchinh
+        </a>
+      </p>
     </div>
 
-    <!-- Ghi chú nhỏ -->
-    <p class="chat-note">
-      ⚠️ Đây là tư vấn viên ảo. Thông tin chính thức tại
-      <a href="https://tuyensinh.hcmut.edu.vn" target="_blank">tuyensinh.hcmut.edu.vn</a>
-    </p>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

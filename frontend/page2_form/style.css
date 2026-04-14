@@ -1,22 +1,27 @@
 /* =============================================
    RESET & BIẾN CSS
 ============================================= */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --blue-dark:  #003087;
-  --blue-main:  #1455C0;
-  --blue-light: #4A90D9;
-  --bg-page:    #f0f4f8;
-  --white:      #FFFFFF;
-  --text-dark:  #1A1A2E;
-  --border:     #b0c4de;
-  --shadow:     0 4px 20px rgba(0,48,135,0.13);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-  font-family: 'Roboto', sans-serif;
-  background: var(--bg-page);
+:root {
+  --blue-dark: #003087;
+  --blue-main: #1455c0;
+  --blue-light: #4a90d9;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --shadow: 0 4px 20px rgba(0, 48, 135, 0.15);
+}
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  background: #f0f4f8;
   color: var(--text-dark);
   min-height: 100vh;
 }
@@ -31,31 +36,35 @@ html, body {
   display: flex;
   align-items: center;
   gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .form-header-logo {
-  width: 36px; height: 36px;
-  background: #B01020;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-weight: 700; font-size: 12px;
-  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: #b01020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
 }
-
+.form-header-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
 .form-header-title {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 15px;
   font-weight: 700;
   color: var(--blue-dark);
   line-height: 1.3;
 }
 
-/* Nút outline (Trang chủ) */
-.btn-outline {
+/* Nút quay về trang chủ */
+.btn-back {
   margin-left: auto;
   background: none;
   border: 1.5px solid var(--blue-main);
@@ -64,10 +73,15 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
-  white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
+  font-family: "Roboto", sans-serif;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
-.btn-outline:hover { background: var(--blue-main); color: #fff; }
+.btn-back:hover {
+  background: var(--blue-main);
+  color: #fff;
+}
 
 /* =============================================
    LAYOUT 2 CỘT
@@ -77,17 +91,16 @@ html, body {
   gap: 0;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 20px;
+  /* Tăng padding-bottom lên 60px hoặc 80px */
+  padding: 24px 20px 80px;
   align-items: flex-start;
 }
 
-/* Cột trái chứa form */
 .form-left {
   flex: 1;
   min-width: 0;
 }
 
-/* Cột phải chứa ảnh */
 .form-right {
   width: 220px;
   flex-shrink: 0;
@@ -95,11 +108,11 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: sticky;
-  top: 80px; /* Dính dưới header */
 }
 
+/* Ảnh bên phải */
 .form-right-img {
+  width: 100%;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -107,12 +120,10 @@ html, body {
 .form-right-img img {
   width: 100%;
   display: block;
-  transition: transform 0.3s;
 }
-.form-right-img img:hover { transform: scale(1.03); }
 
 /* =============================================
-   KHỐI SECTION FORM
+   KHỐI SECTION FORM (viền xanh)
 ============================================= */
 .form-section {
   background: var(--white);
@@ -120,7 +131,6 @@ html, body {
   border-radius: 8px;
   padding: 16px 20px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,48,135,0.05);
 }
 
 /* Tiêu đề section – nền xanh */
@@ -134,17 +144,28 @@ html, body {
   border-radius: 6px 6px 0 0;
 }
 
-/* Mô tả nhỏ dưới tiêu đề */
-.section-desc {
+/* Ghi chú nhỏ dưới tiêu đề */
+.section-note {
   font-size: 12px;
   color: #667;
   margin-bottom: 10px;
-  line-height: 1.5;
 }
 
-/* Sub section (trong khối khu vực) */
-.sub-section { margin-top: 14px; }
-.sub-title    { font-size: 13px; font-weight: 500; color: #333; margin-bottom: 8px; }
+/* Sub block (đối tượng ưu tiên, điểm cộng) */
+.sub-block {
+  margin-top: 12px;
+}
+.sub-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+.sub-note {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 6px;
+}
 
 /* =============================================
    RADIO GROUPS
@@ -155,7 +176,7 @@ html, body {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .cert-radios label,
@@ -168,31 +189,41 @@ html, body {
   cursor: pointer;
 }
 
-input[type="radio"] { accent-color: var(--blue-main); }
+.radio-group {
+  gap: 28px;
+}
+.kuvuc-radios {
+  gap: 18px;
+}
+
+input[type="radio"] {
+  accent-color: var(--blue-main);
+}
 
 /* =============================================
-   ĐẦU VÀO CHỨNG CHỈ
+   INPUT CHỨNG CHỈ
 ============================================= */
 .cert-row {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .cert-row input[type="text"] {
   flex: 1;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid #b0c4de;
   border-radius: 4px;
   padding: 9px 12px;
   font-size: 13px;
   outline: none;
   transition: border-color 0.2s;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-.cert-row input[type="text"]:focus { border-color: var(--blue-main); }
+.cert-row input[type="text"]:focus {
+  border-color: var(--blue-main);
+}
 
-.btn-primary-sm {
+.btn-lookup {
   background: var(--blue-main);
   color: #fff;
   border: none;
@@ -202,9 +233,11 @@ input[type="radio"] { accent-color: var(--blue-main); }
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-.btn-primary-sm:hover { background: var(--blue-dark); }
+.btn-lookup:hover {
+  background: var(--blue-dark);
+}
 
 .link-small {
   font-size: 12px;
@@ -212,10 +245,13 @@ input[type="radio"] { accent-color: var(--blue-main); }
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
-  margin-top: 4px;
+  margin-top: 6px;
 }
-.link-small:hover { color: var(--blue-dark); }
-
+.link-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 /* =============================================
    GRID NHẬP ĐIỂM (3 CỘT)
 ============================================= */
@@ -231,14 +267,14 @@ input[type="radio"] { accent-color: var(--blue-main); }
 .thpt-grid input,
 .dgnl-grid input {
   width: 100%;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid #b0c4de;
   border-radius: 4px;
   padding: 9px 12px;
   font-size: 13px;
   outline: none;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s;
   background: #f8fbff;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 .score-grid input:focus,
 .thpt-grid input:focus,
@@ -246,65 +282,202 @@ input[type="radio"] { accent-color: var(--blue-main); }
   border-color: var(--blue-main);
   background: #fff;
 }
+
 .score-grid input::placeholder,
 .thpt-grid input::placeholder,
-.dgnl-grid input::placeholder { color: #9ab; font-size: 12px; }
+.dgnl-grid input::placeholder {
+  color: #9ab;
+  font-size: 12px;
+}
 
 /* =============================================
-   Ô NHẬP ĐIỂM CỘNG ĐƠN
+   INPUT ĐIỂM CỘNG
 ============================================= */
-.input-single {
-  width: 200px;
-  border: 1.5px solid var(--border);
+#input-diem-cong {
+  width: 180px;
+  border: 1.5px solid #b0c4de;
   border-radius: 4px;
   padding: 9px 12px;
   font-size: 13px;
   outline: none;
   transition: border-color 0.2s;
   background: #f8fbff;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-.input-single:focus { border-color: var(--blue-main); background: #fff; }
-.input-single::placeholder { color: #9ab; font-size: 12px; }
+#input-diem-cong:focus {
+  border-color: var(--blue-main);
+  background: #fff;
+}
+#input-diem-cong::placeholder {
+  color: #9ab;
+  font-size: 12px;
+}
 
 /* =============================================
    NÚT TÍNH TOÁN
 ============================================= */
-.btn-calculate {
+#btn-calculate {
   display: block;
-  margin: 8px auto 40px;
+  margin: 6px auto 0;
   background: var(--blue-main);
   color: #fff;
   font-size: 18px;
   font-weight: 500;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   padding: 16px 0;
   width: 260px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   letter-spacing: 0.5px;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(20,85,192,0.3);
+  transition:
+    background 0.2s,
+    transform 0.15s;
 }
-.btn-calculate:hover {
-  background: var(--blue-dark);
+#btn-calculate:hover {
+  background: #0d3fa6;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(20,85,192,0.4);
+}
+
+#result-display {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(20, 85, 192, 0.1);
+  border: 2px dashed var(--blue-main);
+  border-radius: 8px;
+  text-align: center;
+}
+#result-display h3 {
+  color: var(--white);
+  margin-bottom: 10px;
+}
+#final-score {
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 15px;
+}
+#btn-go-to-result {
+  background: var(--blue-main);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#btn-go-to-result:hover {
+  background: var(--blue-dark);
+}
+/* =============================================
+   KHỐI HIỂN THỊ KẾT QUẢ TÍNH ĐIỂM
+============================================= */
+.result-box {
+  display: none;
+  margin-top: 24px;
+  /* Thêm margin-bottom để khi nó hiện ra, trang web tự dài thêm một chút */
+  margin-bottom: 40px;
+  padding: 24px;
+  /* ... giữ nguyên các thuộc tính khác ... */
+}
+
+/* Đảm bảo nút tính toán cũng không dính sát nếu chưa có kết quả */
+#btn-calculate {
+  margin: 6px auto 30px; /* Thêm 30px phía dưới nút */
+  /* ... giữ nguyên các thuộc tính khác ... */
+}
+
+.result-title {
+  color: var(--blue-dark); /* Đổi sang màu tối để dễ đọc trên nền sáng */
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.result-score {
+  font-size: 42px;
+  font-weight: 700;
+  color: #e8455a; /* Màu đỏ nhấn nổi bật */
+  margin-bottom: 20px;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 /* =============================================
-   RESPONSIVE
+   NÚT CHUYỂN TRANG TRA CỨU
 ============================================= */
-@media (max-width: 820px) {
-  .form-right { display: none; }
+.btn-danger-full {
+  width: 100%;
+  padding: 16px;
+  background: #e8455a;
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
 }
 
-@media (max-width: 560px) {
+.btn-danger-full:hover {
+  background: #d03c50; /* Tối màu đi một chút khi hover */
+  transform: translateY(-2px); /* Nảy lên nhẹ */
+  box-shadow: 0 4px 12px rgba(232, 69, 90, 0.3); /* Đổ bóng màu đỏ */
+}
+
+/* Animation mờ dần hiện ra cho hộp kết quả */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* =============================================
+   RESPONSIVE
+============================================= */
+/* =============================================
+   RESPONSIVE CHUẨN
+============================================= */
+@media (max-width: 768px) {
+  .form-layout {
+    flex-direction: column;
+    /* Thêm padding bottom linh hoạt cho mobile */
+    padding-bottom: calc(50px + env(safe-area-inset-bottom));
+  }
+
+  .form-right {
+    display: none; /* Ẩn cột phải như bạn đã làm */
+  }
+
+  .form-left {
+    width: 100%; /* Đảm bảo cột trái chiếm hết chiều rộng */
+  }
+
+  /* Chuyển grid về 1 cột trên điện thoại nhỏ để dễ nhập liệu */
   .score-grid,
   .thpt-grid,
-  .dgnl-grid { grid-template-columns: 1fr 1fr; }
+  .dgnl-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px;
+  }
 
-  .form-layout { padding: 16px 12px; }
-  .form-header { padding: 12px 16px; }
+  /* Nút tính toán nên chiếm rộng hơn trên mobile */
+  #btn-calculate {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* Header mobile */
+  .form-header {
+    padding: 10px 16px;
+  }
 }

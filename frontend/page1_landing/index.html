@@ -1,85 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Công Cụ Tính Điểm – Đại Học Bách Khoa HCM 2026</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-  <!-- CSS riêng của trang này -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Công Cụ Tính Điểm – Đại Học Bách Khoa HCM 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Hình nền trường BK (animate từ trái sang phải 1s) -->
+    <div id="landing-bg">
+      <img src="../logo/bach-khoa-tp-hcm1jpg.jpg" alt="" />
+    </div>
+    <!-- Lớp phủ gradient tối bên trái -->
+    <div id="landing-overlay"></div>
 
-  <!-- Hình nền trường BK (animate từ trái sang phải 1s) -->
-  <div id="landing-bg"></div>
-  <!-- Lớp phủ gradient tối bên trái -->
-  <div id="landing-overlay"></div>
+    <!-- Nội dung chính -->
+    <div id="landing-content">
+      <!-- Logo góc trên -->
+      <div id="landing-logos">
+        <div class="logo-badge logo-bk">
+          <img src="../logo/OIP.webp" alt="ảnh font" />
+        </div>
+        <div class="logo-badge logo-bk-fc">
+          <img src="../logo/Ảnh chụp màn hình 2026-04-14 224922.png" alt="" />
+        </div>
+        <div class="logo-badge logo-bkfc-tc">
+          <img src="../logo/Ảnh chụp màn hình 2026-04-14 224933.png" alt="" />
+        </div>
+      </div>
 
-  <!-- Nội dung chính -->
-  <div id="landing-content">
+      <!-- Tiêu đề chính -->
+      <h1 id="landing-title">
+        Công Cụ Tính Điểm<br />
+        Phương Thức Xét Tuyển Tổng Hợp
+      </h1>
+      <p id="landing-subtitle">Đại Học Bách Khoa HCM 2026</p>
+      <p id="landing-sub2">BKFC – Trường THPT Trường Chinh</p>
 
-    <!-- Logo góc trên -->
-    <div id="landing-logos">
-      <div class="logo-badge logo-bk">BK</div>
-      <div class="logo-badge logo-dh">ĐH</div>
-      <div class="logo-badge logo-bkfc">BKFC</div>
+      <!-- Nút bắt đầu → chuyển sang trang form -->
+      <button id="btn-start">Bắt đầu</button>
     </div>
 
-    <!-- Tiêu đề chính -->
-    <h1 id="landing-title">
-      Công Cụ Tính Điểm<br>
-      Phương Thức Xét Tuyển Tổng Hợp
-    </h1>
-    <p id="landing-subtitle">Đại Học Bách Khoa HCM 2026</p>
-    <p id="landing-sub2">BKFC – Trường THPT Trường Chinh</p>
-
-    <!-- Nút bắt đầu → sang trang form -->
-    <button id="btn-start">Bắt đầu</button>
-  </div>
-
-  <!-- 3 card phía dưới -->
-  <div id="landing-cards">
-
-    <!-- Card 1: Giới thiệu trường -->
-    <div class="landing-card" id="card-gioithieu">
-      <div class="card-icon">
-        <!-- Icon ngôi nhà -->
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <!-- 3 card phía dưới -->
+    <div id="landing-cards">
+      <!-- Card 1: Giới thiệu trường → mở link ngoài -->
+      <div class="landing-card" id="card-gioithieu">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Giới Thiệu Trường</div>
+          <div class="card-more">Xem Thêm</div>
+        </div>
       </div>
-      <div>
-        <div class="card-title">Giới Thiệu Trường</div>
-        <div class="card-more">Xem Thêm</div>
+
+      <!-- Card 2: Tư vấn tuyển sinh → trang chat -->
+      <div class="landing-card" id="card-tuvan">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+            />
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Tư Vấn Tuyển Sinh</div>
+          <div class="card-more">Xem Thêm</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Tham quan ảo → mở link ngoài -->
+      <div class="landing-card" id="card-360">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="4" />
+            <line x1="12" y1="2" x2="12" y2="4" />
+            <line x1="12" y1="20" x2="12" y2="22" />
+            <line x1="2" y1="12" x2="4" y2="12" />
+            <line x1="20" y1="12" x2="22" y2="12" />
+          </svg>
+        </div>
+        <div>
+          <div class="card-title">Tham Quan Ảo</div>
+          <div class="card-more">Xem Thêm</div>
+        </div>
       </div>
     </div>
 
-    <!-- Card 2: Tư vấn tuyển sinh → trang chat -->
-    <div class="landing-card" id="card-tuvan">
-      <div class="card-icon">
-        <!-- Icon chat bubble -->
-        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      </div>
-      <div>
-        <div class="card-title">Tư Vấn Tuyển Sinh</div>
-        <div class="card-more">Xem Thêm</div>
-      </div>
-    </div>
-
-    <!-- Card 3: Tham quan ảo -->
-    <div class="landing-card" id="card-360">
-      <div class="card-icon">
-        <!-- Icon 360 -->
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg>
-      </div>
-      <div>
-        <div class="card-title">Tham Quan Ảo</div>
-        <div class="card-more">Xem Thêm</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- JS riêng của trang này -->
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,326 +1,279 @@
-# 🎓 BK HCM Tuyển Sinh 2026 – Công Cụ Tính Điểm & Tư Vấn RAG
+# 🎓 BKFC – Công Cụ Tính Điểm & Tư Vấn Tuyển Sinh BK HCM 2026
 
-Hệ thống gồm 4 trang web + backend RAG + admin panel để tư vấn tuyển sinh
-Đại Học Bách Khoa HCM 2026.
+<div align="center">
+
+![Banner](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/HCM_City_University_of_Technology_%28HCMUT%29.jpg/640px-HCM_City_University_of_Technology_%28HCMUT%29.jpg)
+
+**Hệ thống tính điểm xét tuyển tổng hợp + chatbot tư vấn RAG dành cho thí sinh Đại Học Bách Khoa HCM 2026**
+
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![LangChain](https://img.shields.io/badge/LangChain-RAG-1C3C3C?style=flat&logo=langchain&logoColor=white)](https://langchain.com)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)](https://docker.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat)](LICENSE)
+
+</div>
 
 ---
 
-## 📁 CẤU TRÚC THƯ MỤC
+## 📌 Giới thiệu
+
+**BKFC Tuyển Sinh 2026** là một ứng dụng web hỗ trợ thí sinh trường THPT Trường Chinh tra cứu và tính toán điểm xét tuyển vào **Đại Học Bách Khoa HCM** theo phương thức xét tuyển tổng hợp năm 2026, kết hợp chatbot tư vấn thông minh được xây dựng trên nền tảng **RAG (Retrieval-Augmented Generation)**.
+
+Dự án gồm 2 phần chính:
+- **Frontend** – 4 trang web tĩnh (HTML/CSS/JS), không cần framework
+- **Backend** – REST API Python (FastAPI) tích hợp LangChain RAG, FAISS Vector DB và Groq LLM
+
+---
+
+## ✨ Tính năng
+
+### 🖥️ Frontend
+| Trang | Mô tả |
+|---|---|
+| **Landing Page** | Trang chủ với hiệu ứng ảnh nền animate từ trái sang phải (1s), điều hướng 3 card |
+| **Form Tính Điểm** | Nhập học bạ, điểm THPT, ĐGNL, khu vực, ưu tiên; quy đổi chứng chỉ tiếng Anh (IELTS/TOEFL/PTE/TOEIC) |
+| **Kết Quả** | Hiển thị tổng điểm, phân loại ngành đủ/không đủ điểm, accordion mở/đóng |
+| **Chat Tư Vấn** | Giao diện chatbox với typing indicator, chip gợi ý nhanh, kết nối RAG API |
+
+### ⚙️ Backend
+- **RAG Pipeline** – LangChain + FAISS Vector DB + Groq LLaMA 3.3 70B
+- **Embedding** – `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` (hỗ trợ tiếng Việt)
+- **API** – FastAPI với CORS, upload PDF, rebuild vector DB
+- **Admin Panel** – Giao diện web quản lý tài liệu, upload PDF, xem trạng thái hệ thống
+
+---
+
+## 🗂️ Cấu trúc thư mục
 
 ```
 bkfc_project/
-├── frontend/
-│   ├── page1_landing/          ← Trang chủ (ảnh animate + 3 card)
+│
+├── frontend/                        # Giao diện người dùng
+│   ├── page1_landing/               # Trang chủ
 │   │   ├── index.html
 │   │   ├── style.css
 │   │   └── script.js
-│   ├── page2_form/             ← Form nhập điểm
+│   ├── page2_form/                  # Form nhập điểm
 │   │   ├── index.html
 │   │   ├── style.css
 │   │   └── script.js
-│   ├── page3_result/           ← Kết quả xét tuyển (accordion)
+│   ├── page3_result/                # Trang kết quả
 │   │   ├── index.html
 │   │   ├── style.css
 │   │   └── script.js
-│   └── page4_chat/             ← Chatbox tư vấn RAG
+│   └── page4_chat/                  # Chatbot tư vấn
 │       ├── index.html
 │       ├── style.css
 │       └── script.js
 │
-├── backend/
-│   ├── main.py                 ← FastAPI server + RAG chain
+├── backend/                         # FastAPI + RAG
+│   ├── main.py                      # Server chính
 │   ├── requirements.txt
-│   ├── .env.example            ← Mẫu cấu hình
-│   ├── data/                   ← Chứa file PDF tài liệu tuyển sinh
-│   └── vectorstore/            ← FAISS Vector DB (tự tạo)
+│   ├── .env.example                 # Mẫu biến môi trường
+│   ├── data/                        # Chứa file PDF tài liệu
+│   └── vectorstore/                 # FAISS Vector DB (tự sinh)
 │
-├── admin/
-│   ├── index.html              ← Admin Panel giao diện
+├── admin/                           # Trang quản trị
+│   ├── index.html
 │   ├── style.css
 │   └── script.js
 │
 ├── docker/
-│   ├── Dockerfile.backend      ← Docker image cho FastAPI
-│   ├── Dockerfile.frontend     ← Docker image cho Nginx
-│   └── nginx.conf              ← Cấu hình Nginx
+│   ├── Dockerfile.backend
+│   ├── Dockerfile.frontend
+│   └── nginx.conf
 │
-├── docker-compose.yml          ← Production (1 lệnh chạy tất cả)
-├── docker-compose.dev.yml      ← Development (hot reload)
-├── render.yaml                 ← Deploy lên Render.com
-├── railway.toml                ← Deploy lên Railway.app
-├── fly.toml                    ← Deploy lên Fly.io
-├── .dockerignore
-└── .gitignore
+├── docker-compose.yml               # Production
+├── docker-compose.dev.yml           # Development (hot reload)
+├── render.yaml                      # Deploy Render.com
+├── railway.toml                     # Deploy Railway.app
+├── fly.toml                         # Deploy Fly.io
+└── README.md
 ```
 
 ---
 
-## ⚡ CHẠY NHANH (Local)
+## 🚀 Hướng dẫn cài đặt
 
-### Bước 1: Cài đặt prerequisites
+### Yêu cầu
+- Python 3.11+
+- Docker & Docker Compose (khuyến nghị)
+- Groq API Key miễn phí tại [console.groq.com](https://console.groq.com)
+
+---
+
+### ▶️ Chạy bằng Docker (khuyến nghị)
+
 ```bash
-# Python 3.11+
-python --version
+# 1. Clone repo
+git clone https://github.com/YOUR_USERNAME/bkfc-tuyen-sinh.git
+cd bkfc-tuyen-sinh
 
-# Docker Desktop (tải tại docker.com)
-docker --version
-docker compose version
-```
-
-### Bước 2: Cấu hình môi trường
-```bash
-cd bkfc_project/backend
-cp .env.example .env
-
-# Mở .env và điền:
-# GROQ_API_KEY=your_groq_key   ← Lấy miễn phí tại console.groq.com
-# ADMIN_API_KEY=your_secret_key
-```
-
-### Bước 3A: Chạy bằng Docker (KHUYẾN NGHỊ)
-```bash
-cd bkfc_project
-
-# Tạo thư mục volume
+# 2. Tạo thư mục dữ liệu
 mkdir -p backend/data backend/vectorstore
 
-# Build và chạy
-docker compose up --build
+# 3. Cấu hình biến môi trường
+cp backend/.env.example backend/.env
+# Mở backend/.env và điền GROQ_API_KEY, ADMIN_API_KEY
 
-# Truy cập:
-# → Trang chủ:    http://localhost
-# → Admin Panel:  http://localhost/admin
-# → API Docs:     http://localhost/api/docs  (khi phát triển)
+# 4. Build và chạy
+docker compose up --build
 ```
 
-### Bước 3B: Chạy thủ công (không Docker)
+Truy cập:
+- 🌐 Trang chủ: `http://localhost`
+- 🔧 Admin Panel: `http://localhost/admin`
+- 📖 API Docs: `http://localhost/api/docs`
+
+---
+
+### ▶️ Chạy thủ công (không Docker)
+
 ```bash
-# Terminal 1: Backend
-cd bkfc_project/backend
+# Terminal 1 – Backend
+cd backend
 pip install -r requirements.txt
+cp .env.example .env        # Điền GROQ_API_KEY
 uvicorn main:app --reload --port 8000
 
-# Terminal 2: Frontend
-cd bkfc_project
+# Terminal 2 – Frontend
+cd ..
 python -m http.server 3000
 # Mở: http://localhost:3000/frontend/page1_landing/index.html
-# Admin: http://localhost:3000/admin/index.html
 ```
 
 ---
 
-## 📄 HƯỚNG DẪN NẠP TÀI LIỆU PDF
+## 📄 Nạp tài liệu PDF vào RAG
 
-1. Mở Admin Panel: `http://localhost/admin` (hoặc `/admin/index.html`)
-2. Nhập **Admin API Key** (trong file `.env`)
-3. Kéo thả file PDF vào vùng upload (hoặc nhấn "Chọn file")
-   - Có thể upload nhiều file cùng lúc
-   - Hỗ trợ: đề án tuyển sinh, thông báo điểm chuẩn, quy chế...
+1. Mở **Admin Panel**: `http://localhost/admin`
+2. Nhập **Admin API Key** (đã cấu hình trong `.env`)
+3. Kéo thả hoặc chọn file PDF (đề án tuyển sinh, thông báo điểm chuẩn, quy chế...)
 4. Nhấn **"Upload & Cập nhật Vector DB"**
-5. Hệ thống tự động xử lý PDF và cập nhật chatbot
+5. Chatbot sẽ tự động cập nhật kiến thức mới
 
 ---
 
-## 🔗 TÍCH HỢP API CHAT VỚI FRONTEND
+## 🔌 API Endpoints
 
-File `page4_chat/script.js` gọi endpoint:
-```
-POST /api/chat
-Body: { "question": "...", "history": [...] }
-Response: { "answer": "..." }
-```
-
-Nếu backend offline → fallback tự trả lời từ rule-based local.
-
----
-
-## 🌐 DEPLOY MIỄN PHÍ
-
-### ✅ OPTION 1: Render.com (KHUYẾN NGHỊ NHẤT)
-
-| Thành phần | Service | Giới hạn Free |
+| Method | Endpoint | Mô tả |
 |---|---|---|
-| Backend  | Render Web Service | 750 giờ/tháng (tắt sau 15p idle) |
-| Frontend | Render Static Site | Không giới hạn |
+| `GET` | `/api/health` | Kiểm tra trạng thái hệ thống |
+| `POST` | `/api/chat` | Gửi câu hỏi, nhận câu trả lời RAG |
+| `GET` | `/api/admin/files` | Liệt kê file PDF *(cần API key)* |
+| `POST` | `/api/admin/upload` | Upload PDF mới *(cần API key)* |
+| `DELETE` | `/api/admin/files/{name}` | Xóa file PDF *(cần API key)* |
+| `POST` | `/api/admin/rebuild` | Rebuild Vector DB thủ công *(cần API key)* |
 
-**Các bước:**
+**Ví dụ gọi API chat:**
 ```bash
-# 1. Push code lên GitHub (bắt buộc)
-git init && git add . && git commit -m "init"
-git remote add origin https://github.com/USERNAME/bkfc.git
-git push -u origin main
-
-# 2. Vào https://render.com → Đăng ký bằng GitHub
-# 3. New → Blueprint → Chọn repo → Deploy
-# 4. Sau khi deploy, vào Environment → Thêm:
-#    GROQ_API_KEY = your_key
-#    ADMIN_API_KEY = your_secret
+curl -X POST http://localhost:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question": "Điểm chuẩn ngành Khoa học máy tính 2025 là bao nhiêu?"}'
 ```
-
-**Lưu ý Render free:**
-- Backend tắt sau 15 phút không dùng, mất ~30s để khởi động lại
-- KHÔNG có persistent disk → PDF và Vector DB mất khi restart
-- Giải pháp: Lưu vector DB lên Hugging Face Hub (xem phần nâng cao)
 
 ---
 
-### ✅ OPTION 2: Railway.app
+## 🌐 Deploy miễn phí
 
-| Thành phần | Giới hạn Free |
-|---|---|
-| $5 credit/tháng | Tương đương ~500 giờ chạy |
+| Platform | Backend | Frontend | Persistent DB | Thẻ TN? |
+|---|---|---|---|---|
+| **Railway.app** ⭐ | ✅ Free $5/tháng | ✅ | ✅ | Không |
+| **Render.com** | ✅ 750h/tháng | ✅ Static | ❌ Free / ✅ $7 | Không |
+| **Fly.io** | ✅ 3 VMs free | ✅ | ✅ 3GB | Cần verify |
+| **Koyeb.com** | ✅ 2 services | ✅ | ✅ | Không |
 
+### Deploy lên Railway (nhanh nhất)
 ```bash
-# Cài Railway CLI
 npm install -g @railway/cli
-
-# Đăng nhập
 railway login
-
-# Khởi tạo project
-cd bkfc_project/backend
-railway init
-
-# Set biến môi trường
-railway variables set GROQ_API_KEY=your_key
-railway variables set ADMIN_API_KEY=your_secret
-
-# Deploy
+cd backend && railway init
+railway variables set GROQ_API_KEY=xxx ADMIN_API_KEY=xxx
 railway up
 ```
 
-**Lưu ý Railway:**
-- Có persistent volume → PDF và Vector DB không mất
-- $5 credit miễn phí mỗi tháng (không cần thẻ)
-- Tốc độ khởi động nhanh hơn Render
+### Deploy lên Render
+1. Push code lên GitHub
+2. Vào [render.com](https://render.com) → **New Blueprint** → Chọn repo
+3. Thêm `GROQ_API_KEY` và `ADMIN_API_KEY` trong **Environment**
 
 ---
 
-### ✅ OPTION 3: Fly.io
+## ⚙️ Biến môi trường
 
-| Thành phần | Giới hạn Free |
-|---|---|
-| 3 shared-cpu-1x 256MB VMs | Miễn phí vĩnh viễn |
-| 3GB persistent storage | Miễn phí |
+| Biến | Mô tả | Bắt buộc |
+|---|---|---|
+| `GROQ_API_KEY` | API key từ [console.groq.com](https://console.groq.com) | ✅ |
+| `ADMIN_API_KEY` | Mật khẩu bảo vệ Admin Panel | ✅ |
+| `PORT` | Cổng server (mặc định `8000`) | ❌ |
+| `ENV` | `development` hoặc `production` | ❌ |
 
-```bash
-# Cài Fly CLI
-curl -L https://fly.io/install.sh | sh
+---
 
-# Đăng nhập (cần thẻ để verify, không charge)
-flyctl auth login
+## 🧠 Công nghệ sử dụng
 
-# Tạo app (chạy từ thư mục gốc)
-flyctl launch --no-deploy
+**Frontend**
+- HTML5 / CSS3 / Vanilla JavaScript (không framework)
+- Google Fonts – Roboto Condensed
+- CSS animations (`clip-path`, `@keyframes`)
+- `sessionStorage` để truyền dữ liệu giữa các trang
 
-# Set secrets
-flyctl secrets set GROQ_API_KEY=your_groq_key
-flyctl secrets set ADMIN_API_KEY=your_admin_key
+**Backend**
+- [FastAPI](https://fastapi.tiangolo.com) – REST API framework
+- [LangChain](https://langchain.com) – RAG orchestration
+- [FAISS](https://faiss.ai) – Vector similarity search
+- [HuggingFace Sentence Transformers](https://sbert.net) – Embedding đa ngôn ngữ
+- [Groq](https://groq.com) – LLM inference cực nhanh (LLaMA 3.3 70B)
+- [PyPDF](https://pypdf.readthedocs.io) – Đọc file PDF
 
-# Deploy
-flyctl deploy
+**Infrastructure**
+- Docker & Docker Compose
+- Nginx (reverse proxy + static file server)
 
-# Xem URL
-flyctl status
+---
+
+## 📐 Công thức tính điểm
+
 ```
+Tổng điểm = Điểm học lực + Điểm ưu tiên + Điểm cộng
 
-**Lưu ý Fly.io:**
-- Cần thẻ tín dụng để đăng ký (nhưng không charge với free tier)
-- Có persistent volume 3GB → Tốt cho lưu PDF và Vector DB
-- Tự scale về 0 khi không dùng (auto_stop_machines = true)
+Điểm học lực  = Trung bình(Toán, Lý, Hóa/Anh lớp 10-12) × 10
 
----
-
-### ✅ OPTION 4: Hugging Face Spaces (Gradio/Streamlit)
-
-Dành cho version đơn giản hơn (chỉ chatbot, không có trang web đầy đủ):
-
-```bash
-# Tạo Space tại https://huggingface.co/spaces
-# Chọn SDK: "Docker"
-# Upload: Dockerfile.backend + backend/ code
-```
-
----
-
-### ✅ OPTION 5: Koyeb.com
-
-- Free tier: 2 services, 2GB RAM
-- Deploy bằng Docker hoặc GitHub
-- Có persistent storage
-
----
-
-## 🏗️ HƯỚNG DẪN NÂNG CAO
-
-### Lưu Vector DB lên Hugging Face Hub (giải quyết vấn đề persistent)
-
-```python
-# Thêm vào backend/main.py
-from huggingface_hub import HfApi
-
-def push_db_to_hf():
-    """Upload Vector DB lên HF Hub để lưu bền"""
-    api = HfApi(token=os.getenv("HF_TOKEN"))
-    api.upload_folder(
-        folder_path=str(DB_FAISS_PATH),
-        repo_id="username/bkfc-vectordb",
-        repo_type="dataset"
-    )
-
-def pull_db_from_hf():
-    """Tải Vector DB từ HF Hub khi khởi động"""
-    from huggingface_hub import snapshot_download
-    snapshot_download(
-        repo_id="username/bkfc-vectordb",
-        repo_type="dataset",
-        local_dir=str(DB_FAISS_PATH)
-    )
-```
-
-### Tối ưu cho production
-```bash
-# Dùng model embedding nhỏ hơn
-model_name = "sentence-transformers/all-MiniLM-L6-v2"   # 80MB thay vì 130MB
-
-# Cache embedding model
-HuggingFaceEmbeddings(
-    model_name=...,
-    cache_folder="/app/.cache"  # Không tải lại khi restart
-)
+Điểm ưu tiên:
+  KV1    = +2.00  |  KV2-NT = +1.50
+  KV2    = +1.00  |  KV3    = 0.00
+  UT1    = +2.00  |  UT2    = +1.00
 ```
 
 ---
 
-## 🔑 LẤY GROQ API KEY (MIỄN PHÍ)
+## 🤝 Đóng góp
 
-1. Vào https://console.groq.com
-2. Đăng ký tài khoản (miễn phí)
-3. API Keys → Create API Key
-4. Copy key vào file `.env`
-
-**Groq free tier:** 14,400 tokens/phút (đủ dùng cho ~100 câu hỏi/phút)
-
----
-
-## 📞 LIÊN HỆ & TÀI LIỆU
-
-- Website BK: https://hcmut.edu.vn
-- Tuyển sinh: https://tuyensinh.hcmut.edu.vn
-- Hotline: 028 3864 8987
+Mọi đóng góp đều được chào đón! Vui lòng:
+1. Fork repo này
+2. Tạo branch mới: `git checkout -b feature/ten-tinh-nang`
+3. Commit thay đổi: `git commit -m "feat: thêm tính năng XYZ"`
+4. Push lên branch: `git push origin feature/ten-tinh-nang`
+5. Tạo Pull Request
 
 ---
 
-## 🏆 SO SÁNH CÁC PLATFORM MIỄN PHÍ
+## 📞 Liên hệ & Tài nguyên
 
-| Platform | Cold Start | Persistent DB | RAM | Thẻ TN? | Điểm |
-|---|---|---|---|---|---|
-| **Render.com**   | ~30s | ❌ Free / ✅ $7 | 512MB | Không | ⭐⭐⭐⭐ |
-| **Railway.app**  | ~10s | ✅            | 512MB | Không | ⭐⭐⭐⭐⭐ |
-| **Fly.io**       | ~15s | ✅ 3GB        | 256MB | Có    | ⭐⭐⭐⭐ |
-| **Koyeb.com**    | ~20s | ✅            | 512MB | Không | ⭐⭐⭐ |
-| **HF Spaces**    | ~60s | ❌            | 16GB  | Không | ⭐⭐ |
+- 🌐 Website BK HCM: [hcmut.edu.vn](https://hcmut.edu.vn)
+- 📋 Tuyển sinh chính thức: [tuyensinh.hcmut.edu.vn](https://tuyensinh.hcmut.edu.vn)
+- 📞 Hotline: **028 3864 8987**
+- 📧 Email: **tuyensinh@hcmut.edu.vn**
 
-> **Khuyến nghị:** Dùng **Railway.app** cho backend (có persistent DB, không cần thẻ),
-> **Render.com Static Site** cho frontend (miễn phí 100%).
-# web-for-bkfc
+---
+
+## 📝 License
+
+Dự án được phân phối theo giấy phép **MIT**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+
+---
+
+<div align="center">
+  <sub>Made with ❤️ by BKFC – Trường THPT Trường Chinh</sub>
+</div>
