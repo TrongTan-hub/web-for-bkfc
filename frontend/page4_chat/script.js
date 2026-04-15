@@ -10,7 +10,7 @@
 ------------------------------------------------------- */
 const API_CONFIG = {
   // Endpoint của FastAPI backend RAG
-  endpoint: "https://ttan-3126-web-tinh-diem-bk.hf.space/api/chat",
+  endpoint: "https://ttan-3126-web-for-bkfc.hf.space/api/chat",
   // Timeout tối đa mỗi request (ms)
   timeout: 30000,
 };

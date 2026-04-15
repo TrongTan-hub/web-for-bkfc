@@ -418,3 +418,24 @@ async def manual_rebuild(x_api_key: str = None):
         return {"message": "Rebuild thành công!"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+import gradio as gr
+# Các import khác của bạn (langchain, v.v.)
+
+# --- ĐOẠN CODE RAG CỦA BẠN ---
+# Load vectorstore từ folder đã có
+# Định nghĩa hàm xử lý câu hỏi từ PDF
+def rag_chat(message, history):
+    # Logic: message -> tìm kiếm vectorstore -> LLM -> trả về kết quả
+    response = "Câu trả lời từ AI dựa trên dữ liệu PDF" 
+    return response
+
+# --- THÊM ĐOẠN GRADIO VÀO ĐÂY ---
+demo = gr.ChatInterface(
+    fn=rag_chat, 
+    title="RAG AI Consulting",
+    description="Hệ thống tư vấn dựa trên tài liệu PDF"
+)
+
+if __name__ == "__main__":
+    # QUAN TRỌNG: Phải có server_name và server_port để Docker nhận diện được
+    demo.launch(server_name="0.0.0.0", server_port=7860)
