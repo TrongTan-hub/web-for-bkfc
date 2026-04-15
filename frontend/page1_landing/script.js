@@ -12,6 +12,7 @@ const ROUTES = {
   chat: "../page4_chat/index.html", // Trang tư vấn
   school: "https://hcmut.edu.vn", // Website chính BK
   tour360: "https://hcmut.edu.vn/virtual-tour/", // Virtual tour (thay link thật)
+  admin: "../admin/index.html", // Trang admin (nếu có)
 };
 
 /* -------------------------------------------------------
@@ -21,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* Nút "Bắt đầu" → trang form tính điểm */
   document.getElementById("btn-start").addEventListener("click", () => {
     window.location.href = ROUTES.form;
+  });
+  document.getElementById("btn-admin").addEventListener("click", () => {
+    window.location.href = ROUTES.admin;
   });
 
   /* Card "Giới Thiệu Trường" → website BK */
