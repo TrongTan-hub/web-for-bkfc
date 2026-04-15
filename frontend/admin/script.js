@@ -6,7 +6,7 @@
 /* -------------------------------------------------------
    CẤU HÌNH
 ------------------------------------------------------- */
-const API_BASE = "http://localhost:7860"; // Thay khi deploy
+const API_BASE = "https://ttan-3126-web-for-bkfc.hf.space"; // Thay khi deploy
 
 /* -------------------------------------------------------
    STATE
