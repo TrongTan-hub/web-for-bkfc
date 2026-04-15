@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-start").addEventListener("click", () => {
     window.location.href = ROUTES.form;
   });
-  document.getElementById("btn-admin").addEventListener("click", () => {
-    window.location.href = ROUTES.admin;
-  });
+  // document.getElementById("btn-admin").addEventListener("click", () => {
+  //   window.location.href = ROUTES.admin;
+  // });
 
   /* Card "Giới Thiệu Trường" → website BK */
   document.getElementById("card-gioithieu").addEventListener("click", () => {
