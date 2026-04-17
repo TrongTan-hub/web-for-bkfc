@@ -8,27 +8,28 @@
       href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/form/style.css" />
   </head>
   <body>
-    <!-- ======= HEADER ======= -->
     <div class="form-header">
       <div class="form-header-logo">
-        <img src="../logo/Ảnh chụp màn hình 2026-04-14 224922.png" alt="" />
+        <img src="/assets/Ảnh chụp màn hình 2026-04-14 224922.png" alt="" />
       </div>
       <div class="form-header-title">
         Công Cụ Tính Điểm Phương Thức Xét Tuyển Tổng Hợp<br />
         Đại Học Bách Khoa HCM 2026
       </div>
-      <!-- Nút quay về trang chủ -->
-      <button id="btn-back-home" class="btn-back">← Trang chủ</button>
+      <button
+        id="btn-back-home"
+        class="btn-back"
+        onclick="window.location.href = '/'"
+      >
+        ← Trang chủ
+      </button>
     </div>
 
-    <!-- ======= LAYOUT 2 CỘT ======= -->
     <div class="form-layout">
-      <!-- ===== CỘT TRÁI: CÁC KHỐI NHẬP LIỆU ===== -->
       <div class="form-left">
-        <!-- KHỐI 1: Quy đổi chứng chỉ tiếng Anh -->
         <div class="form-section">
           <div class="section-title">
             Quy đổi chứng chỉ Tiếng Anh → điểm thi THPT
@@ -38,7 +39,6 @@
             tự điền vào ô bạn chọn
           </p>
 
-          <!-- Radio chọn loại chứng chỉ -->
           <div class="cert-radios">
             <label
               ><input type="radio" name="cert" value="IELTS" /> IELTS
@@ -56,7 +56,6 @@
             >
           </div>
 
-          <!-- Nhập điểm và tra bảng -->
           <div class="cert-row">
             <input
               type="text"
@@ -66,11 +65,10 @@
             <button id="btn-lookup" class="btn-lookup">Tra bảng</button>
           </div>
           <span class="link-small"
-            >Xem bảng quy đổi 2026 <img src="../logo/quydoidiem.png" alt=""
+            >Xem bảng quy đổi 2026 <img src="/assets/quydoidiem.png" alt=""
           /></span>
         </div>
 
-        <!-- KHỐI 2: Chọn trường hợp thí sinh -->
         <div class="form-section">
           <div class="section-title">Chọn trường hợp của thí sinh</div>
           <div class="radio-group">
@@ -85,12 +83,10 @@
           </div>
         </div>
 
-        <!-- KHỐI 3: Điểm học bạ -->
         <div class="form-section">
           <div class="section-title">
             Nhập điểm học bạ ( *Dùng dấu (.) cho số thập phân )
           </div>
-          <!-- 3 cột × 3 hàng = 9 ô: Toán/Lý/Hóa,Anh lớp 10-12 -->
           <div class="score-grid">
             <input type="text" id="toan10" placeholder="Toán 10" />
             <input type="text" id="ly10" placeholder="Lý 10" />
@@ -104,7 +100,6 @@
           </div>
         </div>
 
-        <!-- KHỐI 4: Điểm thi THPT -->
         <div class="form-section">
           <div class="section-title">Nhập điểm thi THPT</div>
           <div class="thpt-grid">
@@ -114,7 +109,6 @@
           </div>
         </div>
 
-        <!-- KHỐI 5: Điểm ĐGNL -->
         <div class="form-section">
           <div class="section-title">
             Nhập các cột điểm thành phần của thi ĐGNL
@@ -126,7 +120,6 @@
           </div>
         </div>
 
-        <!-- KHỐI 6: Khu vực & Ưu tiên -->
         <div class="form-section">
           <div class="section-title">Chọn khu vực sinh sống</div>
           <div class="kuvuc-radios">
@@ -141,7 +134,6 @@
             >
           </div>
 
-          <!-- Đối tượng ưu tiên -->
           <div class="sub-block">
             <div class="sub-label">Chọn đối tượng ưu tiên</div>
             <div class="kuvuc-radios">
@@ -160,7 +152,6 @@
             </div>
           </div>
 
-          <!-- Điểm cộng -->
           <div class="sub-block">
             <div class="sub-note">
               Nhập điểm cộng (tra cứu tại mybk, phần kết quả xét tuyển)
@@ -169,37 +160,18 @@
           </div>
         </div>
 
-        <!-- NÚT TÍNH TOÁN -->
         <button id="btn-calculate">Tính Toán</button>
       </div>
+
       <div id="result-display" class="result-box">
         <h3 class="result-title">Tổng Điểm Xét Tuyển Của Bạn</h3>
         <div id="final-score" class="result-score">0.00</div>
-
         <button id="btn-go-to-result" class="btn-danger-full">
           Tra cứu các ngành có thể đậu vào 2025
         </button>
       </div>
-      <!-- /form-left -->
-
-      <!-- ===== CỘT PHẢI: ẢNH TRƯỜNG =====
-      <div class="form-right">
-        <div class="form-right-img">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/HCM_City_University_of_Technology_%28HCMUT%29.jpg/640px-HCM_City_University_of_Technology_%28HCMUT%29.jpg"
-            alt="Trường ĐH Bách Khoa HCM"
-          />
-        </div>
-        <div class="form-right-img">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Main_gate_HCMUT.jpg/640px-Main_gate_HCMUT.jpg"
-            alt="Cổng chính Bách Khoa"
-          />
-        </div>
-      </div> -->
     </div>
-    <!-- /form-layout -->
 
-    <script src="script.js"></script>
+    <script src="/form/script.js"></script>
   </body>
 </html>

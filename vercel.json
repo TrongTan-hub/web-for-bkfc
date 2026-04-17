@@ -14,8 +14,16 @@
       "destination": "/frontend/page1_landing/:path*"
     },
     {
+      "source": "/form/:path*",
+      "destination": "/frontend/page2_form/:path*"
+    },
+    {
       "source": "/assets/:path*",
       "destination": "/frontend/logo/:path*"
+    },
+    {
+      "source": "/form",
+      "destination": "/frontend/page2_form/index.html"
     },
     {
       "source": "/",
