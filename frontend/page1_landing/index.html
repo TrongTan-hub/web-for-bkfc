@@ -8,34 +8,36 @@
       href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/assets/page1_landing/style.css" />
   </head>
   <body>
-    <!-- Hình nền trường BK (animate từ trái sang phải 1s) -->
     <div id="landing-bg">
-      <img src="../logo/bach-khoa-tp-hcm1jpg.jpg" alt="" />
+      <img src="/assets/logo/bach-khoa-tp-hcm1jpg.jpg" alt="BK Background" />
     </div>
-    <!-- Lớp phủ gradient tối bên trái -->
     <div id="landing-overlay"></div>
 
-    <!-- Nội dung chính -->
     <div id="landing-content">
-      <!-- Logo góc trên -->
       <div id="landing-logos">
-        <a href="../admin/index.html">
+        <a href="/admin/index.html">
           <div class="logo-badge logo-bk">
-            <img src="../logo/OIP.webp" alt="ảnh font" /></div
-        ></a>
+            <img src="/assets/logo/OIP.webp" alt="ảnh font" />
+          </div>
+        </a>
 
         <div class="logo-badge logo-bk-fc">
-          <img src="../logo/Ảnh chụp màn hình 2026-04-14 224922.png" alt="" />
+          <img
+            src="/assets/logo/Ảnh chụp màn hình 2026-04-14 224922.png"
+            alt="BKFC"
+          />
         </div>
         <div class="logo-badge logo-bkfc-tc">
-          <img src="../logo/Ảnh chụp màn hình 2026-04-14 224933.png" alt="" />
+          <img
+            src="/assets/logo/Ảnh chụp màn hình 2026-04-14 224933.png"
+            alt="BKFC-TC"
+          />
         </div>
       </div>
 
-      <!-- Tiêu đề chính -->
       <h1 id="landing-title">
         Công Cụ Tính Điểm<br />
         Phương Thức Xét Tuyển Tổng Hợp
@@ -43,13 +45,10 @@
       <p id="landing-subtitle">Đại Học Bách Khoa HCM 2026</p>
       <p id="landing-sub2">BKFC – Trường THPT Trường Chinh</p>
 
-      <!-- Nút bắt đầu → chuyển sang trang form -->
       <button id="btn-start">Bắt đầu</button>
     </div>
 
-    <!-- 3 card phía dưới -->
     <div id="landing-cards">
-      <!-- Card 1: Giới thiệu trường → mở link ngoài -->
       <div class="landing-card" id="card-gioithieu">
         <div class="card-icon">
           <svg viewBox="0 0 24 24">
@@ -63,7 +62,6 @@
         </div>
       </div>
 
-      <!-- Card 2: Tư vấn tuyển sinh → trang chat -->
       <div class="landing-card" id="card-tuvan">
         <div class="card-icon">
           <svg viewBox="0 0 24 24">
@@ -78,7 +76,6 @@
         </div>
       </div>
 
-      <!-- Card 3: Tham quan ảo → mở link ngoài -->
       <div class="landing-card" id="card-360">
         <div class="card-icon">
           <svg viewBox="0 0 24 24">
@@ -97,6 +94,6 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/assets/page1_landing/script.js"></script>
   </body>
 </html>
