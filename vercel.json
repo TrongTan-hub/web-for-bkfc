@@ -10,16 +10,16 @@
       "destination": "/frontend/admin/:path*"
     },
     {
+      "source": "/assets/:path*",
+      "destination": "/frontend/logo/:path*"
+    },
+    {
       "source": "/home/:path*",
       "destination": "/frontend/page1_landing/:path*"
     },
     {
       "source": "/form/:path*",
       "destination": "/frontend/page2_form/:path*"
-    },
-    {
-      "source": "/assets/:path*",
-      "destination": "/frontend/logo/:path*"
     },
     {
       "source": "/form",
