@@ -14,12 +14,8 @@
       "destination": "https://ttan-3126-web-for-bkfc.hf.space/api/:path*"
     },
     {
-      "source": "/static/:path*",
-      "destination": "/frontend/page1_landing/:path*"
-    },
-    {
-      "source": "/admin-static/:path*",
-      "destination": "/frontend/admin/:path*"
+      "source": "/:path((?!api|admin).*)",
+      "destination": "/frontend/page1_landing/:path"
     }
   ]
 }
