@@ -2,20 +2,24 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/frontend/page1_landing/index.html"
+      "source": "/api/:path*",
+      "destination": "https://ttan-3126-web-for-bkfc.hf.space/api/:path*"
     },
     {
       "source": "/admin/:path*",
       "destination": "/frontend/admin/:path*"
     },
     {
-      "source": "/api/:path*",
-      "destination": "https://ttan-3126-web-for-bkfc.hf.space/api/:path*"
+      "source": "/(css|js|images|assets)/:path*",
+      "destination": "/frontend/page1_landing/:1/:path*"
     },
     {
-      "source": "/:path((?!api|admin).*)",
-      "destination": "/frontend/page1_landing/:path"
+      "source": "/",
+      "destination": "/frontend/page1_landing/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/page1_landing/$1"
     }
   ]
 }
