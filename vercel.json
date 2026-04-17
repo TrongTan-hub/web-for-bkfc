@@ -1,7 +1,17 @@
 {
-  "public": true,
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/admin/(.*)", "destination": "/frontend/admin/$1" },
-    { "source": "/", "destination": "/frontend/admin/index.html" }
+    {
+      "source": "/",
+      "destination": "/frontend/page1_landing/index.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/frontend/admin/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "ttps://ttan-3126-web-for-bkfc.hf.space/api/chat*"
+    }
   ]
 }
