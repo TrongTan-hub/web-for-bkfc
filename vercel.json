@@ -10,12 +10,12 @@
       "destination": "/frontend/admin/:path*"
     },
     {
-      "source": "/(css|js|images|assets)/:path*",
-      "destination": "/frontend/page1_landing/:1/:path*"
-    },
-    {
       "source": "/",
       "destination": "/frontend/page1_landing/index.html"
+    },
+    {
+      "source": "/(style.css|script.js|main.js|.*\\.png|.*\\.jpg|.*\\.svg)",
+      "destination": "/frontend/page1_landing/$1"
     },
     {
       "source": "/(.*)",
