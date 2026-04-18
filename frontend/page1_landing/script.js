@@ -8,11 +8,11 @@
    → Chỉnh sửa tại đây nếu deploy trên server khác
 ------------------------------------------------------- */
 const ROUTES = {
-  form: "../page2_form/index.html", // Trang tính điểm
-  chat: "../page4_chat/index.html", // Trang tư vấn
+  form: "/frontend/page2_form/index.html", // Trang tính điểm
+  chat: "/frontend/page4_chat/index.html", // Trang tư vấn
   school: "https://hcmut.edu.vn", // Website chính BK
   tour360: "https://hcmut.edu.vn/virtual-tour/", // Virtual tour (thay link thật)
-  admin: "../admin/index.html", // Trang admin (nếu có)
+  admin: "/frontend/admin/index.html", // Trang admin (nếu có)
 };
 
 /* -------------------------------------------------------

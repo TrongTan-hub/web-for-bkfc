@@ -331,7 +331,7 @@ function loadResult() {
   const raw = sessionStorage.getItem("bkfc_result");
   if (!raw) {
     // Không có dữ liệu → quay về form
-    window.location.href = "../page2_form/index.html";
+    window.location.href = "/frontend/page2_form/index.html";
     return;
   }
 
@@ -381,11 +381,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Nút quay lại form
   document.getElementById("btn-back-form").addEventListener("click", () => {
-    window.location.href = "../page2_form/index.html";
+    window.location.href = "/frontend/page2_form/index.html";
   });
 
   // Nút về trang chủ
   document.getElementById("btn-back-home").addEventListener("click", () => {
-    window.location.href = "../page1_landing/index.html";
+    window.location.href = "/frontend/page1_landing/index.html";
   });
 });

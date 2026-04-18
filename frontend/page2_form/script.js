@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("btn-back-home")?.addEventListener("click", () => {
-    window.location.href = "../page1_landing/index.html";
+    window.location.href = "/frontend/page1_landing/index.html";
   });
 
   document.getElementById("btn-lookup")?.addEventListener("click", lookupCert);
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("btn-calculate")
     ?.addEventListener("click", calculate);
   document.getElementById("btn-go-to-result")?.addEventListener("click", () => {
-    window.location.href = "../page3_result/index.html";
+    window.location.href = "/frontend/page3_result/index.html";
   });
 
   // Mờ form ĐGNL (giữ nguyên logic)

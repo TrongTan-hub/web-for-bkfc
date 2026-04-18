@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnBack = document.getElementById("btn-back-home");
   if (btnBack) {
     btnBack.addEventListener("click", () => {
-      window.location.href = "../page1_landing/index.html";
+      window.location.href = "/frontend/page1_landing/index.html";
     });
   }
 });
