@@ -6,12 +6,6 @@
     { "source": "/form", "destination": "/frontend/page2_form/index.html" },
     { "source": "/result", "destination": "/frontend/page3_result/index.html" },
     { "source": "/chat", "destination": "/frontend/page4_chat/index.html" },
-
-    { "source": "/home/(.*)", "destination": "/frontend/page1_landing/$1" },
-    { "source": "/form/(.*)", "destination": "/frontend/page2_form/$1" },
-    { "source": "/result/(.*)", "destination": "/frontend/page3_result/$1" },
-    { "source": "/chat/(.*)", "destination": "/frontend/page4_chat/$1" },
-
     { "source": "/admin/(.*)", "destination": "/frontend/admin/$1" },
     { "source": "/", "destination": "/frontend/admin/index.html" }
   ]
