@@ -1,11 +1,11 @@
 /**
  * page2_form/script.js
- * Sửa lỗi: Chặn nhập chữ, Toán x2, Fix trần điểm chứng chỉ.
+ * Sửa lỗi: Chặn nhập chữ, Ép trần điểm (10, 600, 300), Toán x2.
  * Giữ nguyên cấu trúc source gốc.
  */
 
 /* -------------------------------------------------------
-   BẢNG QUY ĐỔI CHỨNG CHỈ TIẾNG ANH (Fix trần điểm)
+   BẢNG QUY ĐỔI CHỨNG CHỈ TIẾNG ANH (Giữ nguyên)
 ------------------------------------------------------- */
 const CERT_TABLE = {
   IELTS: [
@@ -74,14 +74,13 @@ function lookupCert() {
   const certScore = parseFloat(certInput.value);
   if (isNaN(certScore)) return alert("Vui lòng nhập điểm chứng chỉ hợp lệ!");
 
-  // Kiểm tra trần điểm tối đa
   const maxVal = CERT_TABLE[certType][0].max;
   if (certScore > maxVal) {
     alert(
       `Điểm tối đa của ${certType} là ${maxVal}. Hệ thống sẽ tự đưa về mức tối đa.`,
     );
     certInput.value = maxVal;
-    return lookupCert(); // Chạy lại với giá trị đã fix
+    return lookupCert();
   }
 
   const table = CERT_TABLE[certType] || [];
@@ -105,22 +104,19 @@ function lookupCert() {
 }
 
 /* -------------------------------------------------------
-   HÀM TÍNH TOÁN (Toán x2)
+   HÀM TÍNH TOÁN
 ------------------------------------------------------- */
 function calculate() {
-  // 1. Học bạ (Toán x2)
   const hbToan = avgValid(["toan10", "toan11", "toan12"]);
   const hbMon2 = avgValid(["ly10", "ly11", "ly12"]);
   const hbMon3 = avgValid(["hoa10", "hoa11", "hoa12"]);
   const diemHocTHPT_QuyDoi = ((hbToan * 2 + hbMon2 + hbMon3) / 4) * 10;
 
-  // 2. THPT (Toán x2)
   const thptToan = safeNum("thpt1");
   const thptMon2 = safeNum("thpt2");
   const thptMon3 = safeNum("thpt3");
   const diemTNTHPT_QuyDoi = ((thptToan * 2 + thptMon2 + thptMon3) / 4) * 10;
 
-  // 3. Năng lực
   const isNoDGNL =
     document.querySelector('input[name="codinh"]:checked')?.value === "khong";
   let diemNangLuc = 0;
@@ -132,22 +128,18 @@ function calculate() {
     const dgnlToan = safeNum("dgnl-toanh");
     const dgnlTuDuy = safeNum("dgnl-tuduy");
     const tongDGNL = dgnlNgonNgu + dgnlToan + dgnlTuDuy;
-    // Công thức: (Tổng + Toán) / 15
     diemNangLuc = (tongDGNL + dgnlToan) / 15;
   }
 
-  // 4. Học lực
   let diemHocLuc =
     diemNangLuc * 0.7 + diemTNTHPT_QuyDoi * 0.2 + diemHocTHPT_QuyDoi * 0.1;
   diemHocLuc = parseFloat(diemHocLuc.toFixed(2));
 
-  // 5. Điểm cộng
   const diemCongGoc = safeNum("input-diem-cong");
   const diemCongThanhTich = Math.min(diemCongGoc, 10);
   let diemCongThucTe =
     diemHocLuc + diemCongThanhTich < 100 ? diemCongThanhTich : 100 - diemHocLuc;
 
-  // 6. Điểm ưu tiên
   const kuvuc =
     document.querySelector('input[name="kuvuc"]:checked')?.value || "KV3";
   const uutien =
@@ -157,7 +149,6 @@ function calculate() {
 
   let diemUT_Final = 0;
   const tongHocLucVaCong = diemHocLuc + diemCongThucTe;
-
   if (tongHocLucVaCong < 75) {
     diemUT_Final = utQuyDoi100;
   } else {
@@ -165,11 +156,9 @@ function calculate() {
   }
   diemUT_Final = Math.round(diemUT_Final * 100) / 100;
 
-  // 7. Tổng điểm
   let total = parseFloat((tongHocLucVaCong + diemUT_Final).toFixed(2));
   if (total > 100) total = 100;
 
-  // 8. Hiển thị
   const resultDiv = document.getElementById("result-display");
   const scoreDisplay = document.getElementById("final-score");
   const resultBox = document.querySelector(".result-box");
@@ -193,12 +182,13 @@ function calculate() {
 }
 
 /* -------------------------------------------------------
-   GÁN SỰ KIỆN & CHẶN CHỮ
+   GÁN SỰ KIỆN & KIỂM SOÁT NHẬP LIỆU CHẶT CHẼ
 ------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  // CHẶN NHẬP CHỮ (Chỉ cho phép số và dấu chấm)
   const allInputs = document.querySelectorAll('input[type="number"]');
+
   allInputs.forEach((input) => {
+    // 1. Chặn phím không phải số/chấm
     input.addEventListener("keypress", (e) => {
       const charCode = e.which ? e.which : e.keyCode;
       if (
@@ -207,6 +197,23 @@ document.addEventListener("DOMContentLoaded", () => {
         (charCode < 48 || charCode > 57)
       ) {
         e.preventDefault();
+      }
+    });
+
+    // 2. Ép trần điểm khi người dùng nhập/dán
+    input.addEventListener("input", (e) => {
+      let val = parseFloat(e.target.value);
+      if (isNaN(val)) return;
+
+      const id = e.target.id;
+      let maxLimit = 10; // Mặc định cho học bạ, thpt, điểm cộng
+
+      if (id === "dgnl-ngonngu") maxLimit = 600;
+      else if (id === "dgnl-toanh" || id === "dgnl-tuduy") maxLimit = 300;
+      else if (id === "cert-score") return; // Bỏ qua vì đã có hàm lookupCert xử lý riêng theo loại chứng chỉ
+
+      if (val > maxLimit) {
+        e.target.value = maxLimit;
       }
     });
   });
@@ -223,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/frontend/page3_result/index.html";
   });
 
-  // Mờ form ĐGNL (giữ nguyên logic)
   const radioDGNL = document.querySelectorAll('input[name="codinh"]');
   radioDGNL.forEach((radio) => {
     radio.addEventListener("change", (e) => {
